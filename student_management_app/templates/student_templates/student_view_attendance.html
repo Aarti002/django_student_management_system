@@ -1,0 +1,67 @@
+{% extends 'student_templates/base_template.html' %}
+{% block page_title %}View Attendance Data{% endblock page_title %}
+{% block main_content %}
+
+<section class="content" xmlns="http://www.w3.org/1999/html">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+    <div class="card card-primary">
+
+              <!-- /.card-header -->
+              <!-- form start -->
+                <form action="/student_view_attendance_save" method="POST">
+                    {% csrf_token %}
+                <div class="card-body">
+
+                    <div class="form-group">
+                    <label>Subject </label>
+                    <select class="form-control" name="subject" id="subject">
+                        {% for subject in subjects %}
+                          <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Session Start Date</label>
+                    <input type="date" name="start_date" placeholder="Start Date" class="form-control">
+                  </div>
+                        </div>
+                    <div class="col-lg-6">
+                    <div class="form-group">
+                    <label>Session End Date</label>
+                    <input type="date" name="end_date" placeholder="End Date" class="form-control">
+                    </div>
+                    </div>
+                    </div>
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary" id="fetch_student">Fetch Report</button>
+                </div>
+</form>
+            </div>
+
+        </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+{% endblock main_content %}

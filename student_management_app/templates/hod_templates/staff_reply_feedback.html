@@ -1,0 +1,64 @@
+{% extends 'hod_templates/base_template.html' %}
+{% block page_title %}
+Reply to Staff Feedback || Username: {{ feedback.staff_id.admin.username }}
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/edit_staff_reply_save" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+
+                  <div class="form-group">
+                      <div class="row">
+                          <div class="col-6">
+                    <label>Name of staff:</label>
+                    {{ feedback.staff_id.admin.first_name }} {{ feedback.staff_id.admin.last_name }}
+                        <input type="hidden" name="feed_id" value="{{ feedback.id }}">
+                          </div>
+                        <div class="col-6">
+                    <label>Email ID of staff:</label>
+                    {{ feedback.staff_id.admin.email }}
+                        </div>
+                      </div>
+                  <div class="form-group">
+                    <label>Reply to Feedback:</label>
+                      <textarea rows="5" cols="100" name="reply"></textarea>
+                  </div>
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Done</button>
+                </div>
+
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}

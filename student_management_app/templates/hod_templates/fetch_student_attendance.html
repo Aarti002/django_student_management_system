@@ -1,0 +1,44 @@
+{% extends 'hod_templates/base_template.html' %}
+{% block page_title %}
+Students during session: {{ students.session_year_id.session_start_year }} - To - {{ students.session_year_id.session_end_year }}
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for std in students %}
+                  <tr>
+                    <td>{{ std.id }}</td>
+                      <td>{{ std.id.admin.first_name }} {{ std.id.admin.last_name }}</td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}

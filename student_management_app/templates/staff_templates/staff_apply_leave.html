@@ -1,0 +1,82 @@
+{% extends 'staff_templates/base_template.html' %}
+{% block page_title %}Apply for Leave and Leave Status{% endblock page_title %}
+{% block main_content %}
+
+<section class="content" xmlns="http://www.w3.org/1999/html">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <form action="/staff_apply_leave_save" method="POST">
+                    <div class="card-body">
+
+                            {% csrf_token %}
+                            <div class="form-group">
+                            <label>Leave Date</label>
+                            <input type="date" name="leave_date" class="form-control" placeholder="Leave Date">
+                          </div>
+                          <div class="form-group">
+                            <label>Any Reason</label>
+                            <textarea rows="6" name="leave_reason" class="form-control" placeholder="Leave Reason"></textarea>
+                          </div>
+
+                              <div class="form-group">
+                              {% if messages %}
+                                {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% endfor %}
+                              {% endif %}
+                            </div>
+
+                    </div>
+
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary" id="fetch_student">Apply Now</button>
+                        </div>
+                </form>
+            </div>
+                <div class="card card-primary">
+                    <div class="card-body">
+                        <h3>Leave History</h3>
+                        <div class="table">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Leave Date</th>
+                                <th>Reason</th>
+                                <th>Leave Status</th>
+                            </tr>
+
+                        {% for leave in leave_data %}
+                            <tr>
+                                <td>{{ leave.id }}</td>
+                                <td>{{ leave.leave_date }}</td>
+                                <td>{{ leave.leave_message }}</td>
+                                <td>
+                                    {% if leave.leave_status == 1 %}
+                                        <span class="alert alert-success">Approved</span>
+                                    {% elif leave.leave_status == 2 %}
+                                        <span class="alert alert-danger">Rejected</span>
+                                    {% else %}
+                                        <span class="alert alert-info">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+</section>
+{% endblock main_content %}

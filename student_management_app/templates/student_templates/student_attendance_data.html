@@ -1,0 +1,34 @@
+{% extends 'student_templates/base_template.html' %}
+{% block page_title %}Attendance Data{% endblock page_title %}
+{% block main_content %}
+
+<section class="content" xmlns="http://www.w3.org/1999/html">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+    <div class="card card-primary">
+
+        <div class="card-body">
+            <div class="row">
+                {% for report in attendance_report %}
+                <b>Date: {{ report.attendance_id.attendance_date }}</b>
+                <br>
+                {% if  report.status == True %}
+                <b>[ Status: P ]</b>
+                {% else %}
+                <b>[ Status: A ]</b>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+        </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+{% endblock main_content %}
