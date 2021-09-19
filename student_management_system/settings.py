@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,8 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-'student_management_app',
-    'channels',
+    'student_management_app',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'student_management_app.LoginCheckMiddleware.LoginCheckMiddleWare'
+    'student_management_app.LoginCheckMiddleware.LoginCheckMiddleWare',
+    'whitenoise.middleware.WhiteNoiseMiddle',
 ]
 
 ROOT_URLCONF = 'student_management_system.urls'
@@ -84,14 +87,14 @@ ASGI_APPLICATION = 'student_management_system.asgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'student_management_system',
-        'USER' : 'student_management_system',
-        'PASSWORD' : 'student_management_password',
-        'HOST' : 'localhost',
-        'PORT' : '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME' : 'student_management_system',
+        #'USER' : 'student_management_system',
+        #'PASSWORD' : 'student_management_password',
+        #'HOST' : 'localhost',
+        #'PORT' : '3306',
     }
 }
 
@@ -137,13 +140,16 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-
+"""
 AUTH_USER_MODEL = "student_management_app.CustomUser"
 AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
 
 EMAIL_BACKEND="django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
+
 """
+STATICFILES_STORAGE='Whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 EMAIL_HOST="smtp.gmail.com"
 EMAIl_PORT=587
 EMAIL_HOST_USER="aartikumarisingh120@gmail.com"
@@ -151,10 +157,4 @@ EMAIL_HOST_PASSWORD="bihar02aarti"
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL="Student management System <aartikumarisingh120@gmail.com>"
 
-"""
-
-"""STATICFILES_STORAGE='Whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-import dj_database_url
-prod_db=dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)"""
+django_heroku.settings(locals())
