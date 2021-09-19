@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from student_management_app.models import CustomUser,Subjects,SessionYearModel,Staffs, LeaveReportStaff,Students, FeedBackStaffs,Courses,Attendance,AttendanceReport
+from student_management_app.models import NotificationStaffs,CustomUser,Subjects,SessionYearModel,Staffs, LeaveReportStaff,Students, FeedBackStaffs,Courses,Attendance,AttendanceReport
 
 
 def staff_home(request):
@@ -213,3 +213,19 @@ def staff_profile_save(request):
         except:
             messages.error(request, "Failed to Edit Admin Details")
             return HttpResponseRedirect(reverse("staff_profile"))
+
+@csrf_exempt
+def staff_fcmtoken_save(request):
+    token=request.POST.get("token")
+    try:
+        staff=Staffs.objects.get(admin=request.user.id)
+        staff.fcm_token=token
+        staff.save()
+        return HttpResponse("True")
+    except:
+        return HttpResponse("False")
+
+def staff_all_notification(request):
+    staff = Staffs.objects.get(admin=request.user.id)
+    notify = NotificationStaffs.objects.filter(staff_id=staff)
+    return render(request,"staff_templates/all_notification.html",{"notification":notify})

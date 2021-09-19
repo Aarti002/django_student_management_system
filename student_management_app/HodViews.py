@@ -2,13 +2,14 @@ import datetime
 import json
 
 from django.contrib import messages
+from django.contrib.sites import requests
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from student_management_app.models import CustomUser,AttendanceReport,Attendance,Courses,Staffs,Subjects,Students,SessionYearModel,FeedBackStaffs,FeedBackStudent,LeaveReportStudent,LeaveReportStaff
+from student_management_app.models import NotificationStaffs,NotificationStudent,CustomUser,AttendanceReport,Attendance,Courses,Staffs,Subjects,Students,SessionYearModel,FeedBackStaffs,FeedBackStudent,LeaveReportStudent,LeaveReportStaff
 
 def admin_home(request):
     student=Students.objects.all().count()
@@ -534,3 +535,53 @@ def admin_profile_save(request):
         except:
             messages.error(request, "Failed to Edit Admin Details")
             return HttpResponseRedirect("manage_session")
+
+def admin_sendnotification_staff(request):
+    staff=Staffs.objects.all()
+    return render(request,"hod_templates/staff_notification.html",{'staffs':staff})
+
+def admin_sendnotification_student(request):
+    student=Students.objects.all()
+    return render(request,"hod_templates/student_notification.html",{'students':student})
+
+@csrf_exempt
+def send_student_notification(request):
+    id=request.POST.get("id")
+    messages=request.POST.get("messages")
+    student=Students.objects.get(admin=id)
+    token=student.fcm_token
+    url="https://fcm.googleapis.com/fcm/send"
+    body={
+        "Notification":{
+            "Title":"Student Management System",
+            "Message":messages
+        },
+        "To":token
+    }
+    header={"Content-type":"application/json","Authorization":"key"}
+    data=requests.post(url,data=json.dumps(body),headers=header)
+    notification = NotificationStudent(student_id=student, message=messages)
+    notification.save()
+    print(data.text)
+    return HttpResponse("True")
+
+@csrf_exempt
+def send_staff_notification(request):
+    id=request.POST.get("id")
+    messages=request.POST.get("messages")
+    staff=Staffs.objects.get(admin=id)
+    token=staff.fcm_token
+    url="https://fcm.googleapis.com/fcm/send"
+    body={
+        "Notification":{
+            "Title":"Student Management System",
+            "Message":messages
+        },
+        "To":token
+    }
+    header={"Content-type":"application/json","Authorization":"key"}
+    data=requests.post(url,data=json.dumps(body),headers=header)
+    notification = NotificationStaffs(staff_id=staff, message=messages)
+    notification.save()
+    print(data.text)
+    return HttpResponse("True")

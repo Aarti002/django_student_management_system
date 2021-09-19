@@ -8,9 +8,42 @@ from django.urls import reverse
 
 from student_management_app.EmailBackEnd import EmailBackEnd
 
+def showFirebaseJS(request):
+    data='importScripts("https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js");' \
+         'importScripts("https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"); ' \
+         'var firebaseConfig = {' \
+         '        apiKey: "YOUR_API_KEY",' \
+         '        authDomain: "FIREBASE_AUTH_URL",' \
+         '        databaseURL: "FIREBASE_DATABASE_URL",' \
+         '        projectId: "FIREBASE_PROJECT_ID",' \
+         '        storageBucket: "FIREBASE_STORAGE_BUCKET_URL",' \
+         '        messagingSenderId: "FIREBASE_SENDER_ID",' \
+         '        appId: "FIREBASE_APP_ID",' \
+         '        measurementId: "FIREBASE_MEASUREMENT_ID"' \
+         ' };' \
+         'firebase.initializeApp(firebaseConfig);' \
+         'const messaging=firebase.messaging();' \
+         'messaging.setBackgroundMessageHandler(function (payload) {' \
+         '    console.log(payload);' \
+         '    const notification=JSON.parse(payload);' \
+         '    const notificationOption={' \
+         '        body:notification.body,' \
+         '        icon:notification.icon' \
+         '    };' \
+         '    return self.registration.showNotification(payload.notification.title,notificationOption);' \
+         '});'
+
+    return HttpResponse(data,content_type="text/javascript")
+
+
 
 def index(request):
     return render(request,"index.html")
+
+def room(request, room_name):
+    return render(request, 'room.html', {
+        'room_name': room_name
+    })
 
 def login_page(request):
     return render(request,"login.html")

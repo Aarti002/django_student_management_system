@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f2ct9)p+mj4ve04rg27!spskcctbdfzi_ahyiy1=hw+!1p9#t4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["djangosms.herokuapp.com"]
+ALLOWED_HOSTS = []
 
 STATIC_URL='/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,"static")
@@ -43,10 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 'student_management_app',
+    'channels',
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'student_management_system.wsgi.application'
-
+ASGI_APPLICATION = 'student_management_system.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -152,8 +153,8 @@ DEFAULT_FROM_EMAIL="Student management System <aartikumarisingh120@gmail.com>"
 
 """
 
-STATICFILES_STORAGE='Whitenoise.storage.CompressedManifestStaticFilesStorage'
+"""STATICFILES_STORAGE='Whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 import dj_database_url
 prod_db=dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
+DATABASES['default'].update(prod_db)"""
