@@ -27,7 +27,7 @@ class Staffs(models.Model):
     address=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
-    fcm_token=models.TextField(default="")
+
     objects=models.Manager()
 
 class Courses(models.Model):
@@ -55,7 +55,6 @@ class Students(models.Model):
     session_year_id=models.ForeignKey(SessionYearModel,on_delete=models.CASCADE,default="")
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
-    fcm_token = models.TextField(default="")
     objects = models.Manager()
 
 class Attendance(models.Model):

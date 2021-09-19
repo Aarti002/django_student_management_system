@@ -3,15 +3,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Subject: Password reset on 127.0.0.1:8000
 From: webmaster@localhost
-To: staff002@gmail.com
-Date: Thu, 05 Aug 2021 06:26:17 -0000
-Message-ID: <162814477718.4704.14392986293084688784@DESKTOP-H7RLLHL>
+To: admin@gmail.com
+Date: Sun, 19 Sep 2021 04:09:20 -0000
+Message-ID: <163202456021.8428.5264673340096150124@DESKTOP-H7RLLHL>
 
 
-To initiate password reset Staff-2 here in Student Management System .
+To initiate password reset admin here in Student Management System .
 Click the link given below.
 
-http://127.0.0.1:8000/accounts/reset/MzU/aqvqft-b997bf9ed263aa8a7bb1913380a036b1/
+http://127.0.0.1:8000/accounts/reset/MQ/at6w3k-9660c6682e7ae574d500368f17619f5c/
 
 In case above link don't work copy paste the URL.
 
