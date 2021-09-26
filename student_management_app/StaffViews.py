@@ -12,13 +12,13 @@ from student_management_app.models import NotificationStaffs,CustomUser,Subjects
 
 def staff_home(request):
     subjects=Subjects.objects.filter(staff_id=request.user.id)
-    course=[]
+    course_id_list=[]
     for subject in subjects:
         cur=Courses.objects.get(id=subject.course_id.id)
-        course.append(cur)
+        course_id_list.append(cur.id)
 
     final_course=[]
-    for x in course:
+    for x in course_id_list:
         if x not in final_course:
             final_course.append(x)
 
@@ -38,8 +38,8 @@ def staff_home(request):
     student_attendance_present=[]
     student_attendance_absent=[]
     for student in students:
-        total_present = AttendanceReport.objects.filter(student_id__in=student.id, status=True).count()
-        total_absent = AttendanceReport.objects.filter(student_id__in=student.id, status=False).count()
+        total_present = AttendanceReport.objects.filter(student_id=student.id, status=True).count()
+        total_absent = AttendanceReport.objects.filter(student_id=student.id, status=False).count()
         student_list.append(student.admin.username)
         student_attendance_absent.append(total_absent)
         student_attendance_present.append(total_present)
