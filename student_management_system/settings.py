@@ -10,9 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-import django_heroku
-import dj_database_url
-from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +25,7 @@ SECRET_KEY = 'django-insecure-f2ct9)p+mj4ve04rg27!spskcctbdfzi_ahyiy1=hw+!1p9#t4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["djangosms1.herokuapp.com/"]
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 STATIC_URL='/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,"static")
@@ -46,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'student_management_app',
+    'django.contrib.sites',
+
 ]
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -74,10 +74,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+
             ],
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'student_management_system.wsgi.application'
 ASGI_APPLICATION = 'student_management_system.asgi.application'
@@ -137,23 +141,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Default primary key field type
+# Default p rimary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 
 AUTH_USER_MODEL = "student_management_app.CustomUser"
 AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
 
-EMAIL_BACKEND="django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
+
+#EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
 
 
-STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
-
+STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
+"""
 import dj_database_url
 prod_db=dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 """
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST="smtp.gmail.com"
 EMAIl_PORT=587
 EMAIL_HOST_USER="aartikumarisingh120@gmail.com"
@@ -161,4 +166,4 @@ EMAIL_HOST_PASSWORD="bihar02aarti"
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL="Student management System <aartikumarisingh120@gmail.com>"
 
-django_heroku.settings(locals())"""
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

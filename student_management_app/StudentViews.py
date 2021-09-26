@@ -32,8 +32,8 @@ def student_home(request):
 def student_view_attendance(request):
     student=Students.objects.get(admin=request.user.id)
     courses =student.course_id.id
-    subjects=Subjects.objects.all( )
-
+    subjects=Subjects.objects.all()
+    print(subjects)
     return render(request,"student_templates/student_view_attendance.html",{"subjects":subjects})
 
 def student_view_attendance_save(request):
@@ -140,3 +140,8 @@ def student_all_notification(request):
     std=Students.objects.get(admin=request.user.id)
     notify=NotificationStudent.objects.filter(student_id=std)
     return render(request,"staff_templates/all_notification.html",{"notification":notify})
+
+def delete_notification(request,notice_id):
+    NotificationStudent.objects.filter(id=notice_id).delete()
+    notice = NotificationStudent.objects.all()
+    return render(request,"student_templates/all_notification.html",{"notification":notice})

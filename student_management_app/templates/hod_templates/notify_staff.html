@@ -1,0 +1,64 @@
+{% extends 'hod_templates/base_template.html' %}
+{% block page_title %}
+Send Notification || To: {{ staff.admin.username }}
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/send_staff_notification" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+
+                  <div class="form-group">
+                      <div class="row">
+                          <div class="col-6">
+                    <label>Name of staff:</label>
+                    {{ staff.admin.first_name }} {{ staff.admin.last_name }}
+                        <input type="hidden" name="feed_id" value="{{ staff.admin.id }}">
+                          </div>
+                        <div class="col-6">
+                    <label>Email ID of staff:</label>
+                    {{ staff.admin.email }}
+                        </div>
+                      </div>
+                  <div class="form-group">
+                    <label>Message to be send:</label>
+                      <textarea rows="5" cols="100" name="notice"></textarea>
+                  </div>
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Notify</button>
+                </div>
+
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}

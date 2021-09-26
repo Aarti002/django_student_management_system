@@ -34,8 +34,9 @@ Staff Notifications
                   <tbody>
                     {% for notify in notification %}
                   <tr>
+                    <td>{{ notify.id }}</td>
                     <td>{{ notify.message }}</td>
-
+                    <td><a href="/delete_notification/{{notify.id }}" class="btn btn-outline-danger">Delete Notification</a> </td>
                   </tr>
                   {% endfor %}
                   </tbody>

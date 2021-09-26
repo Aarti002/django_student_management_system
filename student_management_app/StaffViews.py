@@ -229,3 +229,8 @@ def staff_all_notification(request):
     staff = Staffs.objects.get(admin=request.user.id)
     notify = NotificationStaffs.objects.filter(staff_id=staff)
     return render(request,"staff_templates/all_notification.html",{"notification":notify})
+
+def delete_notification(request,notice_id):
+    NotificationStaffs.objects.filter(id=notice_id).delete()
+    notice = NotificationStaffs.objects.all()
+    return render(request,"staff_templates/all_notification.html",{"notification":notice})

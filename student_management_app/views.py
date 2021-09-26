@@ -3,8 +3,9 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from student_management_app.models import CustomUser
 
 from student_management_app.EmailBackEnd import EmailBackEnd
 
@@ -40,11 +41,6 @@ def showFirebaseJS(request):
 def index(request):
     return render(request,"index.html")
 
-def room(request, room_name):
-    return render(request, 'room.html', {
-        'room_name': room_name
-    })
-
 def login_page(request):
     return render(request,"login.html")
 
@@ -76,3 +72,17 @@ def getuserdetail(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/")
+"""
+def Change_password(request):
+    return render(request,'registration/change_password.html')
+
+def Forget_password(request):
+    if request.method!="POST":
+        return HttpResponse("<h2>Method Not Allowed</h2>")
+    else:
+        user_email=request.POST.get('email')
+        if not CustomUser.objects.filter(email=user_email).first():
+            messages.error(request,"User not found!")
+            return redirect('/registration/forget_password/')
+
+        user_obj=CustomUser.objects.get(email=user_email)"""

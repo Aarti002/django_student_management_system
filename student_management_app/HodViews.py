@@ -544,7 +544,7 @@ def admin_sendnotification_student(request):
     student=Students.objects.all()
     return render(request,"hod_templates/student_notification.html",{'students':student})
 
-@csrf_exempt
+"""@csrf_exempt
 def send_student_notification(request):
     id=request.POST.get("id")
     messages=request.POST.get("messages")
@@ -584,4 +584,51 @@ def send_staff_notification(request):
     notification = NotificationStaffs(staff_id=staff, message=messages)
     notification.save()
     print(data.text)
-    return HttpResponse("True")
+    return HttpResponse("True")"""
+
+def notify_staff(request,staff_id):
+    staff=Staffs.objects.get(admin=staff_id)
+    return render(request,'hod_templates/notify_staff.html',{'staff':staff})
+
+def send_staff_notification(request):
+    if request.method != "POST":
+        return HttpResponse("Method Not Allowed")
+    else:
+        message=request.POST.get("notice")
+        staff_id=request.POST.get("feed_id")
+        staff = Staffs.objects.get(admin=staff_id)
+        print(message)
+        print(staff_id)
+        try:
+            user = NotificationStaffs(staff_id=staff,message=message)
+
+
+            user.save()
+            messages.success(request, "Successfully replied to Staff. ")
+            return HttpResponseRedirect("/notify_staff/" + staff_id)
+        except:
+            messages.error(request, "Failed to reply to Staff.")
+            return HttpResponseRedirect("/notify_staff/" + staff_id)
+
+def notify_student(request,student_id):
+    student=Students.objects.get(admin=student_id)
+    return render(request,'hod_templates/notify_student.html',{'student':student})
+
+def send_student_notification(request):
+    if request.method != "POST":
+        return HttpResponse("Method Not Allowed")
+    else:
+        message=request.POST.get("notice")
+        std_id=request.POST.get("feed_id")
+        student = Students.objects.get(admin=std_id)
+
+        try:
+            user = NotificationStudent(student_id=student,message=message)
+
+
+            user.save()
+            messages.success(request, "Successfully replied to Staff. ")
+            return HttpResponseRedirect("/notify_student/" + std_id)
+        except:
+            messages.error(request, "Failed to reply to Staff.")
+            return HttpResponseRedirect("/notify_student/" + std_id)

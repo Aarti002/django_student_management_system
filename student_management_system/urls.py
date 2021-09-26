@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from student_management_app import views,HodViews,StaffViews,StudentViews
 
@@ -22,15 +23,19 @@ from student_management_system import settings
 admin.autodiscover()
 
 urlpatterns = [
+
     path('index',views.index),
     path('dologin',views.dologin,name="dologin"),
-    path('accounts/',include("django.contrib.auth.urls")),
+
     path('get_user_details', views.getuserdetail),
+
     path('admin_home', HodViews.admin_home,name="admin_home"),
     path('admin_sendnotification_staff', HodViews.admin_sendnotification_staff,name="admin_sendnotification_staff"),
     path('admin_sendnotification_student', HodViews.admin_sendnotification_student,name="admin_sendnotification_student"),
-    path('send_student_notification', HodViews.send_student_notification,name="send_student_notification"),
+    path('notify_staff/<str:staff_id>', HodViews.notify_staff,name="notify_staff"),
+    path('notify_student/<str:student_id>', HodViews.notify_student,name="notify_student"),
     path('send_staff_notification', HodViews.send_staff_notification,name="send_staff_notification"),
+    path('send_student_notification', HodViews.send_student_notification,name="send_student_notification"),
     path('add_staff', HodViews.add_staff),
     path('add_course', HodViews.add_course),
     path('add_staff_save', HodViews.add_staff_save),
@@ -65,7 +70,7 @@ urlpatterns = [
     path('staff_fcmtoken_save', StaffViews.staff_fcmtoken_save, name="staff_fcmtoken_save"),
     path('staff_update_attendance', StaffViews.staff_update_attendance, name="staff_update_attendance"),
     path('staff_all_notification', StaffViews.staff_all_notification, name="staff_all_notification"),
-   # path('get_students', StaffViews.),
+    path('delete_notification/<str:notice_id>', StaffViews.delete_notification, name="delete_notification"),
     path('get_students', StaffViews.get_students, name="get_students"),
     path('get_attendance_dates', StaffViews.get_attendance_dates, name="get_attendance_dates"),
     path('get_attendance_student', StaffViews.get_attendance_student, name="get_attendance_student"),
@@ -83,6 +88,7 @@ urlpatterns = [
     path('edit_staff_reply/<str:feed_id>', HodViews.edit_staff_reply,name="edit_staff_reply"),
     path('edit_staff_reply_save', HodViews.edit_staff_reply_save,name="edit_staff_reply_save"),
     path('edit_student_reply/<str:feed_id>', HodViews.edit_student_reply, name="edit_student_reply"),
+    path('notify_staff/<str:feed_id>', HodViews.notify_staff, name="notify_staff"),
     path('edit_student_reply_save', HodViews.edit_student_reply_save, name="edit_student_reply_save"),
     path('student_leave_view', HodViews.student_leave_view, name="student_leave_view"),
     path('staff_leave_view', HodViews.staff_leave_view, name="staff_leave_view"),
@@ -105,8 +111,13 @@ urlpatterns = [
     path('student_profile_save', StudentViews.student_profile_save, name="student_profile_save"),
     path('student_fcmtoken_save', StudentViews.student_fcmtoken_save, name="student_fcmtoken_save"),
     path('student_all_notification', StudentViews.student_all_notification, name="student_all_notification"),
+    path('delete_notification/<str:notice_id>', StudentViews.delete_notification, name="delete_notification"),
     path('logout',views.logout_user),
-    path('firebase-messaging-sw.js',views.showFirebaseJS,name="show_firebase_js"),
+    path('password_reset/',auth_views.PasswordResetView.as_view(),name="reset_password"),
+    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name="password_reset_confirm"),
+    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name="password_reset_complete"),
+
     path('',views.login_page,name="login_page"),
     path('admin/', admin.site.urls),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

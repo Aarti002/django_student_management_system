@@ -26,7 +26,7 @@ Take Attendance
                     <label>Session Year</label>
                     <select class="form-control" name="session_year" id="session_year">
                         {% for session_year in sessions %}
-                          <option value="{{ session_year.id }}">{{ session_year.session_start_year }} TO {{ session_year.session_end_year }}</option>
+                          <option value="{{ session_year.id }}">{{ session_year.session_start_year }}  -TO-  {{ session_year.session_end_year }}</option>
                         {% endfor %}
                     </select>
                   </div>

@@ -46,7 +46,7 @@ Student Notifications
                     <td>{{ student.admin.email }}</td>
 
 
-                    <td><a href="#" class="btn btn-outline-success show_notification" data-toggle="modal" data-target="#myModal">Send Notification</a> </td>
+                    <td><a href="/notify_student/{{ student.admin.id }}" class="btn btn-outline-success " >Send Notification</a> </td>
 
                   </tr>
                   {% endfor %}
