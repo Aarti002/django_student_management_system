@@ -70,8 +70,10 @@ def getuserdetail(request):
         return HttpResponse("Please Login First")
 
 def logout_user(request):
+
     logout(request)
-    return HttpResponseRedirect("https://smsdjango.herokuapp.com/")
+    messages.info(request, "Logged out successfully!")
+    return redirect("main:homepage")
 """
 def Change_password(request):
     return render(request,'registration/change_password.html')
