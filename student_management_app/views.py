@@ -60,7 +60,7 @@ def dologin(request):
 
         else:
             messages.error(request,"Invalid Login Details")
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("https://smsdjango.herokuapp.com/")
 
 
 def getuserdetail(request):
@@ -71,7 +71,7 @@ def getuserdetail(request):
 
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("https://smsdjango.herokuapp.com/")
 """
 def Change_password(request):
     return render(request,'registration/change_password.html')
