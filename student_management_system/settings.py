@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f2ct9)p+mj4ve04rg27!spskcctbdfzi_ahyiy1=hw+!1p9#t4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','smsdjango.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','smsdjangoapp.herokuapp.com']
 
 STATIC_URL='/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,"static")

@@ -60,7 +60,7 @@ def dologin(request):
 
         else:
             messages.error(request,"Invalid Login Details")
-            return HttpResponseRedirect("https://smsdjango.herokuapp.com/")
+            return redirect("main:homepage")
 
 
 def getuserdetail(request):
