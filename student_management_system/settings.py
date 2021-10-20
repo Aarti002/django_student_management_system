@@ -76,6 +76,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
 
+                #GA
+
+                'student_management_app.context_processors.google_analytics'
             ],
         },
     },
@@ -150,6 +153,9 @@ AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
 
 
 #EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
+
+#GA
+GOOGLE_ANALYTICS_KEY = os.environ.get("GOOGLE_ANALYTICS_KEY")
 
 
 STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
