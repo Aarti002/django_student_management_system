@@ -33,15 +33,15 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-{% if GA_KEY %}
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id={{ G-RKL8DWGRMG }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ G-RKL8DWGRMG }}');
-    </script>
-{% endif %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKL8DWGRMG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RKL8DWGRMG');
+</script>
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
