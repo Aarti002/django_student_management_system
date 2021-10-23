@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'student_management_app',
     'django.contrib.sites',
 
-    'gtm',
+
 
 ]
 
