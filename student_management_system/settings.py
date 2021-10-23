@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'student_management_app',
     'django.contrib.sites',
 
+    'gtm',
+
 ]
 
 
@@ -76,9 +78,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
 
-                #GA
 
-                'student_management_app.context_processors.google_analytics'
             ],
         },
     },
