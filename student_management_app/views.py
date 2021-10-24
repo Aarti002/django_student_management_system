@@ -42,6 +42,7 @@ def index(request):
     return render(request,"index.html")
 
 def login_page(request):
+    current_user = request.user
     return render(request,"login.html")
 
 def dologin(request):
@@ -88,3 +89,4 @@ def Forget_password(request):
             return redirect('/registration/forget_password/')
 
         user_obj=CustomUser.objects.get(email=user_email)"""
+
