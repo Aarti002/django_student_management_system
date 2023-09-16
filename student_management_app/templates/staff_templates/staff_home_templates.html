@@ -1,136 +1,161 @@
-{% extends 'staff_templates/base_template.html' %}
-{% block page_title %}Home{% endblock page_title %}
-{% block main_content %}
+{% extends 'staff_templates/base_template.html' %} {% block page_title %}STAFF
+PAGE{% endblock page_title %} {% block main_content %}
 
 <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>{{ students }}</h3>
-
-                <p>Students Under me</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <a href="/staff_take_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- card-1 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_notifications }}</h3>
+            <p>Total Recieved Notifications</p>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>{{ total_attendance }}</h3>
-
-                <p>Total attendance</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-users" aria-hidden="true"></i>
-              </div>
-              <a href="/staff_take_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+          <div class="icon">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>{{ leave }}</h3>
-
-                <p>Total leave</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="/staff_apply_leave" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>{{ subjects }}</h3>
-
-                <p>Total Subjects</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-        <!-- /.row (main row) -->
-        <div class="row">
-        <div class="col-lg-6">
-          <div class="card card-danger">
-              <div class="card-header">
-                <h3 class="card-title">Attendance and Leave Status</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block;" width="523" height="312" class="chartjs-render-monitor"></canvas>
-              </div>
-              <!-- /.card-body -->
-            </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Attendance Subject wise</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block;" width="523" height="312" class="chartjs-render-monitor"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
-            </div>
+          <a href="/staff_all_notification" class="small-box-footer"
+            >Notification Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
         </div>
       </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Student Attendance in particular Subject</h3>
+      <div class="col-lg-3 col-6">
+        <!-- card-2 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_feedback_send }}</h3>
+            <p>Total Feedback Send</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+          </div>
+          <a href="/staff_feedback" class="small-box-footer"
+            >Feedback Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <!-- card-3 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_leave_requests }}</h3>
+            <p>Total Leave Requests</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </div>
+          <a href="/staff_apply_leave" class="small-box-footer"
+            >Request Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <!-- /.row (main row) -->
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Attendance and Leave Status</h3>
 
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                  <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block;" width="523" height="312" class="chartjs-render-monitor"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="remove"
+              >
+                <i class="fas fa-times"></i>
+              </button>
             </div>
           </div>
+          <div class="card-body" style="background-color: #e0e0d1">
+            <div class="chartjs-size-monitor">
+              <div class="chartjs-size-monitor-expand">
+                <div class=""></div>
+              </div>
+              <div class="chartjs-size-monitor-shrink">
+                <div class=""></div>
+              </div>
+            </div>
+            <canvas
+              id="pieChart"
+              style="
+                min-height: 250px;
+                height: 250px;
+                max-height: 250px;
+                max-width: 100%;
+                display: block;
+              "
+              width="523"
+              height="312"
+              class="chartjs-render-monitor"
+            ></canvas>
+          </div>
+          <!-- /.card-body -->
         </div>
-      </div><!-- /.container-fluid -->
-</section>
-{% endblock main_content %}
+      </div>
+      <div class="col-lg-6">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Attendance Subject wise</h3>
 
-{% block content_js %}
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="remove"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body" style="background-color: #e0e0d1">
+            <div class="chart">
+              <div class="chartjs-size-monitor">
+                <div class="chartjs-size-monitor-expand">
+                  <div class=""></div>
+                </div>
+                <div class="chartjs-size-monitor-shrink">
+                  <div class=""></div>
+                </div>
+              </div>
+              <canvas
+                id="barChart"
+                style="
+                  min-height: 250px;
+                  height: 250px;
+                  max-height: 250px;
+                  max-width: 100%;
+                  display: block;
+                "
+                width="523"
+                height="312"
+                class="chartjs-render-monitor"
+              ></canvas>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+{% endblock main_content %} {% block content_js %}
 <script>
   $(document).ready(function(){
     var pieData        = {
@@ -254,79 +279,79 @@
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"></script>
 <script>
 
-    var firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "FIREBASE_AUTH_URL",
-        databaseURL: "FIREBASE_DATABASE_URL",
-        projectId: "FIREBASE_PROJECT_ID",
-        storageBucket: "FIREBASE_STORAGE_BUCKET_URL",
-        messagingSenderId: "FIREBASE_SENDER_ID",
-        appId: "FIREBASE_APP_ID",
-        measurementId: "FIREBASE_MEASUREMENT_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const messaging=firebase.messaging();
+  var firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "FIREBASE_AUTH_URL",
+      databaseURL: "FIREBASE_DATABASE_URL",
+      projectId: "FIREBASE_PROJECT_ID",
+      storageBucket: "FIREBASE_STORAGE_BUCKET_URL",
+      messagingSenderId: "FIREBASE_SENDER_ID",
+      appId: "FIREBASE_APP_ID",
+      measurementId: "FIREBASE_MEASUREMENT_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const messaging=firebase.messaging();
 
-    function IntitalizeFireBaseMessaging() {
-        messaging
-            .requestPermission()
-            .then(function () {
-                console.log("Notification Permission");
-                return messaging.getToken();
-            })
-            .then(function (token) {
-                console.log("Token : "+token);
-                sendToServer(token);
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            });
-    }
+  function IntitalizeFireBaseMessaging() {
+      messaging
+          .requestPermission()
+          .then(function () {
+              console.log("Notification Permission");
+              return messaging.getToken();
+          })
+          .then(function (token) {
+              console.log("Token : "+token);
+              sendToServer(token);
+          })
+          .catch(function (reason) {
+              console.log(reason);
+          });
+  }
 
-    messaging.onMessage(function (payload) {
-        console.log(payload);
-        const notificationOption={
-            body:payload.notification.body,
-            icon:payload.notification.icon
-        };
+  messaging.onMessage(function (payload) {
+      console.log(payload);
+      const notificationOption={
+          body:payload.notification.body,
+          icon:payload.notification.icon
+      };
 
-        if(Notification.permission==="granted"){
-            var notification=new Notification(payload.notification.title,notificationOption);
+      if(Notification.permission==="granted"){
+          var notification=new Notification(payload.notification.title,notificationOption);
 
-            notification.onclick=function (ev) {
-                ev.preventDefault();
-                window.open(payload.notification.click_action,'_blank');
-                notification.close();
-            }
-        }
+          notification.onclick=function (ev) {
+              ev.preventDefault();
+              window.open(payload.notification.click_action,'_blank');
+              notification.close();
+          }
+      }
 
-    });
-    messaging.onTokenRefresh(function () {
-        messaging.getToken()
-            .then(function (newtoken) {
-                console.log("New Token : "+ newtoken);
-                sendToServer(newtoken);
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            })
-    });
+  });
+  messaging.onTokenRefresh(function () {
+      messaging.getToken()
+          .then(function (newtoken) {
+              console.log("New Token : "+ newtoken);
+              sendToServer(newtoken);
+          })
+          .catch(function (reason) {
+              console.log(reason);
+          })
+  });
 
-    function sendToServer(token){
-         $.ajax({
-                url:'{% url 'staff_fcmtoken_save' %}',
-                type:'POST',
-                data:{token:token},
-            })
-            .done(function(response){
-                if(response=="True"){
-                    console.log("Token Save");
-                }
-                else{
-                    console.log("Error in Token Save");
-                }
-            });
-    }
-    IntitalizeFireBaseMessaging();
+  function sendToServer(token){
+       $.ajax({
+              url:'{% url 'staff_fcmtoken_save' %}',
+              type:'POST',
+              data:{token:token},
+          })
+          .done(function(response){
+              if(response=="True"){
+                  console.log("Token Save");
+              }
+              else{
+                  console.log("Error in Token Save");
+              }
+          });
+  }
+  IntitalizeFireBaseMessaging();
 </script>
 {% endblock content_js %}

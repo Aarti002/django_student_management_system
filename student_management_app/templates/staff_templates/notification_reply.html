@@ -1,0 +1,51 @@
+{% extends 'staff_templates/base_template.html' %}
+{% block page_title %}Reply to Notification ID: {{notification.id}}{% endblock page_title %}
+{% block main_content %}
+
+<section class="content" xmlns="http://www.w3.org/1999/html">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <form action="/notification_reply_save" method="POST">
+                    <div class="card-body">
+
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                  <label>Recieved Message:</label>
+                                  {{notification.message}}
+                                  <input type="hidden" name="notice_id" value="{{ notification.id }}">
+                                </div>
+                              
+                          <div class="form-group">
+                            <label>Reply Message: </label>
+                            <textarea rows="3" name="message_reply" class="form-control" placeholder="Reply Message"></textarea>
+                          </div>
+
+                              <div class="form-group">
+                              {% if messages %}
+                                {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == 'success' %}
+                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                {% endif %}
+                                {% endfor %}
+                              {% endif %}
+                            </div>
+
+                    </div>
+
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">Send Reply</button>
+                        </div>
+                </form>
+            </div>
+         
+</section>
+{% endblock main_content %}

@@ -1,84 +1,80 @@
 {% load static %}
+<link rel="stylesheet" href="path/to/fontawesome.min.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+  integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7"
+  crossorigin="anonymous"
+/>
+<link
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+  rel="stylesheet"
+/>
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">SMS Branch</span>
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{% static 'dist/img/aarti.jpg' %}" class="img-circle elevation-2" alt="User Image" style="height: 2.5rem;
-    width: 2.5rem;
-}">
-        </div>
-        <div class="info">
-          <a href="/staff_profile" class="d-block">{{ user.username }}</a>
-        </div>
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          src="{% static 'dist/img/user_icon.png' %}"
+          class="img-circle elevation-2"
+          alt="User Image"
+          style="height: 2.5rem; width: 2.5rem"
+        />
       </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="/staff_home" class="nav-link active">
-
-              <p>
-                HOME
-              </p>
-            </a>
-
-          </li>
-        <li class="nav-item has-treeview menu-open">
-            <a href="/staff_take_attendance" class="nav-link ">
-              <p>
-                Take Attendance
-              </p>
-            </a>
-
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="/staff_update_attendance" class="nav-link ">
-              <p>
-                View Update Attendance
-              </p>
-            </a>
-
-          </li>
-
-          <li class="nav-item has-treeview menu-open">
-            <a href="/staff_apply_leave" class="nav-link ">
-              <p>
-                Apply for leave
-              </p>
-            </a>
-
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="/staff_feedback" class="nav-link ">
-              <p>
-                Feedback
-              </p>
-            </a>
-
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="/staff_all_notification" class="nav-link ">
-              <p>
-                View all notifications
-              </p>
-            </a>
-
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+      <div class="info">
+        <a href="/staff_profile" class="d-block">{{ user.username }}</a>
+      </div>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_home" class="nav-link">
+            <i class="nav-icon fa fa-home"></i>
+            <p>HOME</p>
+          </a>
+        </li>
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_take_attendance" class="nav-link"
+            ><i class="nav-icon fa fa-pencil-square-o"></i>
+            <p>Take Attendance</p>
+          </a>
+        </li>
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_update_attendance" class="nav-link"
+            ><i class="nav-icon fa fa-pencil-square-o"></i>
+            <p>View Update Attendance</p>
+          </a>
+        </li>
+
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_apply_leave" class="nav-link"
+            ><i class="nav-icon fa fa-pencil-square-o"></i>
+            <p>Request Leave</p>
+          </a>
+        </li>
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_feedback" class="nav-link"
+            ><i class="nav-icon fa fa-pencil-square-o"></i>
+            <p>Send Feedback</p>
+          </a>
+        </li>
+        <li class="nav-item has-treeview menu-open">
+          <a href="/staff_all_notification" class="nav-link"
+            ><i class="nav-icon fa fa-pencil-square-o"></i>
+            <p>Recieved Notifications</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

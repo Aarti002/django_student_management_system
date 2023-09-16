@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Send Notification || To: {{ staff.admin.username }}
+Notify Staff : {{ staff.admin.username }}
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -22,7 +22,7 @@ Send Notification || To: {{ staff.admin.username }}
                           <div class="col-6">
                     <label>Name of staff:</label>
                     {{ staff.admin.first_name }} {{ staff.admin.last_name }}
-                        <input type="hidden" name="feed_id" value="{{ staff.admin.id }}">
+                        <input type="hidden" name="staff_id" value="{{ staff.admin.id }}">
                           </div>
                         <div class="col-6">
                     <label>Email ID of staff:</label>

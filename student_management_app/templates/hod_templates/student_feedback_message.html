@@ -17,11 +17,9 @@ Students Feedback
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Student ID</th>
                         <th>Student Name</th>
                         <th>Student Session</th>
-                        <th>Send On</th>
+                        <th>Recieved Timing</th>
                         <th>Student Feedback</th>
                         <th>Feedback Reply</th>
                         <th>Action</th>
@@ -30,8 +28,6 @@ Students Feedback
                   <tbody>
                     {% for feed in feedback %}
                   <tr>
-                      <td>{{ feed.id }}</td>
-                      <td>{{ feed.student_id.id }}</td>
                       <td>{{ feed.student_id.admin.first_name }} {{ feed.student_id.admin.last_name }}</td>
                       <td>{{ feed.student_id.session_year_id.session_start_year }} TO {{ feed.student_id.session_year_id.session_end_year }}</td>
                       <td>{{ feed.created_at }}</td>

@@ -1,5 +1,5 @@
 {% extends 'staff_templates/base_template.html' %}
-{% block page_title %}Apply for Leave and Leave Status{% endblock page_title %}
+{% block page_title %}Request/View Leave Status{% endblock page_title %}
 {% block main_content %}
 
 <section class="content" xmlns="http://www.w3.org/1999/html">
@@ -12,13 +12,18 @@
                     <div class="card-body">
 
                             {% csrf_token %}
-                            <div class="form-group">
-                            <label>Leave Date</label>
-                            <input type="date" name="leave_date" class="form-control" placeholder="Leave Date">
-                          </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                  <label>From:</label>
+                                  <input type="date" class="form-control" name="leave_start" placeholder="Leave Start Date">
+                                </div>
+                              <div class="form-group">
+                                  <label>To:</label>
+                                  <input type="date" class="form-control" name="leave_end" placeholder="Leave End Date">
+                                </div>
                           <div class="form-group">
-                            <label>Any Reason</label>
-                            <textarea rows="6" name="leave_reason" class="form-control" placeholder="Leave Reason"></textarea>
+                            <label>Any message?</label>
+                            <textarea rows="3" name="leave_reason" class="form-control" placeholder="Leave Reason"></textarea>
                           </div>
 
                               <div class="form-group">
@@ -39,26 +44,26 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                          <button type="submit" class="btn btn-primary" id="fetch_student">Apply Now</button>
+                          <button type="submit" class="btn btn-primary" id="fetch_student">Send Request</button>
                         </div>
                 </form>
             </div>
                 <div class="card card-primary">
                     <div class="card-body">
-                        <h3>Leave History</h3>
+                        <h3>History</h3>
                         <div class="table">
                         <table class="table">
                             <tr>
-                                <th>ID</th>
-                                <th>Leave Date</th>
-                                <th>Reason</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Message</th>
                                 <th>Leave Status</th>
                             </tr>
 
                         {% for leave in leave_data %}
                             <tr>
-                                <td>{{ leave.id }}</td>
-                                <td>{{ leave.leave_date }}</td>
+                                <td>{{ leave.leave_start_date }}</td>
+                                <td>{{ leave.leave_end_date }}</td>
                                 <td>{{ leave.leave_message }}</td>
                                 <td>
                                     {% if leave.leave_status == 1 %}

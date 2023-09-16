@@ -17,10 +17,8 @@ Staffs Feedback
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                        <th>Staff ID</th>
                         <th>Staff Name</th>
-                        <th>Send On</th>
+                        <th>Recieved Timing</th>
                       <th>Staff Feedback</th>
                         <th>Feedback Reply</th>
                       <th>Action</th>
@@ -29,8 +27,6 @@ Staffs Feedback
                   <tbody>
                     {% for feed in feedback %}
                   <tr>
-                    <td>{{ feed.id }}</td>
-                      <td>{{ feed.staff_id.id }}</td>
                       <td>{{ feed.staff_id.admin.first_name }} {{ feed.staff_id.admin.last_name }}</td>
                       <td>{{ feed.created_at }}</td>
                     <td>{{ feed.feedback }}</td>

@@ -18,32 +18,25 @@ Add Subject
                 <div class="card-body">
                   <div class="form-group">
                     <label>Subject Name</label>
-                    <input type="text" class="form-control" name="subject_name" placeholder="Subject">
+                    <select id="example-getting-started" name="subject_name">
+                      <option value="physics">Physics</option>
+                      <option value="organic_chemistry">Organic Chemistry</option>
+                      <option value="inorganic_chemistry">Inorganic Chemistry</option>
+                      <option value="physical_chemistry">Physical Chemistry</option>
+                      <option value="biology">Biology</option>
+                      <option value="maths">Maths</option>
+                    </select>
                   </div>
 
-                    <div class="form-group">
-                    <label>Course Id</label>
+                  <div class="form-group">
+                    <label>Which Course?</label>
                     <select class="form-control" name="course">
                         {% for course in courses %}
                         <option value="{{ course.id }}">{{ course.course_name }}</option>
                         {% endfor %}
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label>Staff Id</label>
-                    <select class="form-control" name="staff">
-                        {% for staff in staffs %}
-                        <option value="{{ staff.id }}">{{ staff.first_name }}  {{ staff.last_name }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                    <div class="form-group">
-                    <label>Select Session Date</label>
-                    <select class="form-control" name="session">
-                        {% for scs in sessions %}
-                        <option value="{{ scs.id }}">{{ scs.session_start_year }} - to - {{ scs.session_end_year }}</option>
-                        {% endfor %}
-                    </select>
+                   
                   </div>
                       <div class="form-group">
                       {% if messages %}

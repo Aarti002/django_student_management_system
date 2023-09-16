@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Edit Subject || Subject Name: {{ subjects.subject_name }}
+Edit Subject || Subject Name: {{ subject.subject_name }}
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -18,23 +18,15 @@ Edit Subject || Subject Name: {{ subjects.subject_name }}
                 <div class="card-body">
                   <div class="form-group">
                     <label>Subject Name</label>
-                    <input type="text" class="form-control" name="subject_name" placeholder="Subject" value="{{ subjects.subject_name }}">
-                    <input type="hidden" name="subject_id" value="{{ subjects.id }}">
+                    <input type="text" class="form-control" name="subject_name" placeholder="Subject" value="{{ subject.subject_name }}">
+                    <input type="hidden" name="subject_id" value="{{ subject.id }}">
                   </div>
 
                     <div class="form-group">
-                    <label>Course Id</label>
+                    <label>Under Course</label>
                     <select class="form-control" name="course">
                         {% for course in courses %}
-                        <option value="{{ course.id }}" {% if course.id == subjects.course_id.id %} selected {% endif %}>{{ course.course_name }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>Staff Id</label>
-                    <select class="form-control" name="staff">
-                        {% for staff in staffs %}
-                        <option value="{{ staff.id }}" {% if staff.id == subjects.staff_id.id %} selected {% endif %}>{{ staff.first_name }}{{ staff.last_name }}</option>
+                        <option value="{{ course.id }}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{ course.course_name }}</option>
                         {% endfor %}
                     </select>
                   </div>
@@ -56,7 +48,7 @@ Edit Subject || Subject Name: {{ subjects.subject_name }}
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Add Subject</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
               </form>
             </div>

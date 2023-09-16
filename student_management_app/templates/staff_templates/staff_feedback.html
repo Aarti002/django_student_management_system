@@ -1,66 +1,72 @@
-{% extends 'staff_templates/base_template.html' %}
-{% block page_title %}Feedback Record{% endblock page_title %}
+{% extends 'staff_templates/base_template.html' %} 
+{% block page_title %}Feedback Record{% endblock page_title %} 
 {% block main_content %}
 
 <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-primary">
-                    <form action="/staff_feedback_save" method="POST">
-                    <div class="card-body">
-                            {% csrf_token %}
-                          <div class="form-group">
-                            <label>Feedback Message</label>
-                            <textarea rows="6" name="feedback" class="form-control" placeholder="Feedback"></textarea>
-                          </div>
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <form action="/staff_feedback_save" method="POST">
+            <div class="card-body">
+              {% csrf_token %}
+              <div class="form-group">
+                <label>Feedback Message</label>
+                <textarea
+                  rows="6"
+                  name="feedback"
+                  class="form-control"
+                  placeholder="Feedback"
+                ></textarea>
+              </div>
 
-                              <div class="form-group">
-                              {% if messages %}
-                                {% for message in messages %}
-                                {% if message.tags == 'error' %}
-                                <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-                                {% endif %}
-                                {% if message.tags == 'success' %}
-                                <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-                                {% endif %}
-                                {% endfor %}
-                              {% endif %}
-                            </div>
-
-                    </div>
-                        <div class="card-footer">
-                          <button type="submit" class="btn btn-primary" id="fetch_student">Save Feedback</button>
-                        </div>
-                    </form>
+              <div class="form-group">
+                {% if messages %}
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger" style="margin-top: 10px">
+                  {{ message }}
                 </div>
-                <div class="card card-primary">
-                    <div class="card-body">
-                        <h3>Feedback History</h3>
-                        <div class="table">
-                        <table class="table">
-                            <tr>
-                                <th>ID</th>
-                                <th>Feedback Message</th>
-                                <th>Feedback Reply</th>
-
-                            </tr>
-
-                        {% for feedback in feedback_data %}
-                            <tr>
-                                <td>{{ feedback.id }}</td>
-                                <td>{{ feedback.feedback }}</td>
-                                <td>{{ feedback.feedback_reply }}</td>
-
-                            </tr>
-                        {% endfor %}
-                        </table>
-                        </div>
-                    </div>
+                {% endif %} 
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success" style="margin-top: 10px">
+                  {{ message }}
                 </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
             </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" id="fetch_student">
+                Send Feedback
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card card-primary">
+          <div class="card-body">
+            <h3>Feedbacks</h3>
+            <div class="table">
+              <table class="table">
+                <tr>
+                  <th>Feedback Message</th>
+                  <th>Feedback Reply</th>
+                </tr>
+
+                {% for feedback in feedback_data %}
+                <tr>
+                  <td>{{ feedback.feedback }}</td>
+                  <td>{{ feedback.feedback_reply }}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 </section>
 {% endblock main_content %}

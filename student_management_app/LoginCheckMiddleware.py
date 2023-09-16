@@ -4,10 +4,12 @@ from django.utils.deprecation import MiddlewareMixin
 
 
 class LoginCheckMiddleWare(MiddlewareMixin):
-    def process_view(self,request,view_func,view_args,view_kwargs):
-        modulename=view_func.__module__
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        modulename = view_func.__module__
+        print("Checking credentials!")
         print(modulename)
-        user=request.user
+        user = request.user
+        print(user)
         if user.is_authenticated:
             if user.user_type == "1":
                 if modulename == "student_management_app.HodViews":

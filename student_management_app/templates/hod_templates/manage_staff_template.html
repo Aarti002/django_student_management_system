@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Manage Staff
+Manage Staff Details
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -10,8 +10,6 @@ Manage Staff
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Staff Details</h3>
-
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -27,29 +25,29 @@ Manage Staff
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>First name</th>
                       <th>Last name</th>
                       <th>Username</th>
                       <th>Email</th>
+                      <th>Subject Teaches</th>
                       <th>Address</th>
                       <th>Last login</th>
-                      <th>Joining Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for staff in staffs %}
                   <tr>
-                    <td>{{ staff.admin.id }}</td>
                     <td>{{ staff.admin.first_name }}</td>
                     <td>{{ staff.admin.last_name }}</td>
                     <td>{{ staff.admin.username }}</td>
                     <td>{{ staff.admin.email }}</td>
+                    <td>{{ staff.subject_teach }}</td>
                     <td>{{ staff.address }}</td>
                     <td>{{ staff.admin.last_login }}</td>
-                    <td>{{ staff.admin.join_date }}</td>
+
                     <td><a href="/edit_staff/{{staff.admin.id }}" class="btn btn-outline-success">Edit</a> </td>
+                    <td><a href="/admin_sendnotification_staff/{{staff.admin.id }}" class="btn btn-outline-success">Send/View Notification</a> </td>
                     <td><a href="/delete_staff/{{staff.id }}" class="btn btn-outline-danger">Remove Staff</a> </td>
                   </tr>
                   {% endfor %}

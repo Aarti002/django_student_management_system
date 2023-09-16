@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import pymysql
 import os
 from pathlib import Path
 
@@ -25,12 +26,12 @@ SECRET_KEY = 'django-insecure-f2ct9)p+mj4ve04rg27!spskcctbdfzi_ahyiy1=hw+!1p9#t4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','smsdjangoapp.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'smsdjangoapp.herokuapp.com']
 
-STATIC_URL='/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,"static")
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Application definition
@@ -59,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'student_management_app.LoginCheckMiddleware.LoginCheckMiddleWare',
+    # 'student_management_app.LoginCheckMiddleware.LoginCheckMiddleWare',
 
 ]
 
@@ -85,7 +86,6 @@ TEMPLATES = [
 ]
 
 
-
 WSGI_APPLICATION = 'student_management_system.wsgi.application'
 ASGI_APPLICATION = 'student_management_system.asgi.application'
 
@@ -94,14 +94,14 @@ ASGI_APPLICATION = 'student_management_system.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME' : 'student_management_system',
-        #'USER' : 'student_management_system',
-        #'PASSWORD' : 'student_management_password',
-        #'HOST' : 'localhost',
-        #'PORT' : '3306',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'student_management_system',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -149,28 +149,29 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = "student_management_app.CustomUser"
-AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
+# AUTHENTICATION_BACKENDS=['student_management_app.EmailBackEnd.EmailBackEnd']
 
 
-#EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
+# EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_emails")
 
-#GA
+# GA
 GOOGLE_ANALYTICS_KEY = os.environ.get("GOOGLE_ANALYTICS_KEY")
 
 
-STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 """
 import dj_database_url
 prod_db=dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 """
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST="smtp.gmail.com"
-EMAIl_PORT=587
-EMAIL_HOST_USER="aartikumarisingh120@gmail.com"
-EMAIL_HOST_PASSWORD="furormlqxgsyrody"
-EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL="Student management System <noreply@studentmanagementsystem.com>"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIl_PORT = 587
+EMAIL_HOST_USER = "aartikumarisingh120@gmail.com"
+EMAIL_HOST_PASSWORD = "furormlqxgsyrody"
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "Student management System <noreply@studentmanagementsystem.com>"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-#furormlqxgsyrody
+# furormlqxgsyrody
+pymysql.install_as_MySQLdb()

@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Manage Course
+Manage Course Details
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -10,8 +10,6 @@ Manage Course
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Course Details</h3>
-
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -27,19 +25,20 @@ Manage Course
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Course Name</th>
+                      <th>Session</th>
+                      <th>About Course</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for course in courses %}
                   <tr>
-                    <td>{{ course.id }}</td>
                     <td>{{ course.course_name }}</td>
-
+                    <td>{{ course.session_year_id.session_start_year }}  to  {{ course.session_year_id.session_end_year }}</td>
+                    <td>{{ course.description }}</td>
                     <td><a href="/edit_course/{{course.id }}" class="btn btn-outline-success">Edit</a> </td>
-                      <td><a href="/delete_course/{{course.id }}" class="btn btn-outline-danger">Drop Course</a> </td>
+                    <td><a href="/delete_course/{{course.id }}" class="btn btn-outline-danger">Drop Course</a> </td>
                   </tr>
                   {% endfor %}
                   </tbody>

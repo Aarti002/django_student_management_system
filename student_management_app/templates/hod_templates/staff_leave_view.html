@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Staff Apply for leave
+Staff Leave Request
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -17,23 +17,18 @@ Staff Apply for leave
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                        <th>Staff ID</th>
                         <th>Staff Name</th>
-                        <th>Leave Date</th>
+                        <th>Leave Duration</th>
                         <th>Leave Reason</th>
-
-                        <th>Applied On</th>
+                        <th>Requested Timing</th>
                         <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for leave in leaves %}
                   <tr>
-                    <td>{{ leave.id }}</td>
-                      <td>{{ leave.staff_id.id }}</td>
-                      <td>{{ leave.staff_id.admin.first_name }} {{ leave.staff_id.admin.last_name }}</td>
-                      <td>{{ leave.leave_date }}</td>
+                    <td>{{ leave.staff_id.admin.first_name }} {{ leave.staff_id.admin.last_name }}</td>
+                    <td>{{ leave.leave_start_date }} to {{ leave.leave_end_date }}</td>
                     <td>{{ leave.leave_message }}</td>
                     <td>{{ leave.created_at }}</td>
                     <td>

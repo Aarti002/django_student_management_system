@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Edit Course Details || Courses Name: {{ courses.course_name }}
+Edit Course Details || Courses Name: {{ course.course_name }}
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -18,9 +18,23 @@ Edit Course Details || Courses Name: {{ courses.course_name }}
                 <div class="card-body">
                   <div class="form-group">
                     <label>Courses Name</label>
-                    <input type="text" class="form-control" name="courses_name" placeholder="Enter courses name" value="{{ courses.course_name }}">
-                  <input type="hidden" class="form-control" name="course_id" value="{{ courses.id }}">
+                    <input type="text" class="form-control" name="course_name" placeholder="Enter Course name" value="{{ course.course_name }}">
+                  <input type="hidden" class="form-control" name="course_id" value="{{ course.id }}">
 
+                  </div>
+
+                  <div class="form-group">
+                    <label>Select Course Session</label>
+                    <select class="form-control" name="session">
+                        {% for scs in sessions %}
+                        <option value="{{ scs.id }}" {% if scs.id == course.session_year_id.id %} selected {% endif %}>{{ scs.session_start_year }} - to - {{ scs.session_end_year }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>About Course</label>
+                    <input type="text" class="form-control" name="description" placeholder="Enter short description" value="{{ course.description }}">
                   </div>
 
                       <div class="form-group">

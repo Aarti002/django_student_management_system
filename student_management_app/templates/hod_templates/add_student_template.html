@@ -1,103 +1,301 @@
-{% extends 'hod_templates/base_template.html' %}
-{% block page_title %}
-Add Student
-{% endblock page_title %}
-{% block main_content %}
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="card card-primary">
+{% extends 'hod_templates/base_template.html' %} {% block page_title %} Add
+Student {% endblock page_title %} {% block main_content %}
+<!-- Main content -->
+<style>
+  #message {
+    display: none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 0.5rem;
+  }
 
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form role="form" action="/add_student_save" method="post">
-                  {% csrf_token %}
-                <div class="card-body">
-                  <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" class="form-control" name="email" placeholder="Email" id="id_email">
-                  </div>
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" name="password">
-                  </div>
-                   <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" class="form-control" placeholder="First Name" name="first_name">
-                  </div>
-                   <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last Name" name="last_name">
-                  </div>
-                   <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" class="form-control" placeholder="Username" name="username">
-                  </div>
-                  <div class="form-group">
-                    <label>Address</label>
-                    <input type="text" class="form-control" placeholder="Address" name="address">
-                  </div>
-                  <div class="form-group">
-                    <label>Gender</label>
-                    <select class="form-control" name="gender">
-                        <option >Male</option>
-                        <option >Female</option>
-                        <option >Other</option>
-                    </select>
-                  </div>
-                    <div class="form-group">
-                    <label>Course</label>
-                    <select class="form-control" name="course">
-                        {% for course in courses %}
-                        <option value="{{ course.id }}">{{ course.course_name }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                    <div class="form-group">
-                    <label>Select Session Date</label>
-                    <select class="form-control" name="session">
-                        {% for scs in sessions %}
-                        <option value="{{ scs.id }}">{{ scs.session_start_year }} - to - {{ scs.session_end_year }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
+  #message p {
+    font-size: 0.8rem;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+  }
 
+  #email_message {
+    display: none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 0.3rem;
+  }
 
-                      <div class="form-group">
-                      {% if messages %}
-                        {% for message in messages %}
-                        {% if message.tags == 'error' %}
-                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-                        {% endif %}
-                        {% if message.tags == 'success' %}
-                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-                        {% endif %}
-                        {% endfor %}
-                      {% endif %}
-                    </div>
+  #email_message p {
+    font-size: 0.8rem;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+  }
 
+  /* Add a green text color and a checkmark when the requirements are right */
+  .valid {
+    color: green;
+  }
+
+  .valid:before {
+    position: relative;
+    left: 2rem;
+  }
+
+  /* Add a red text color and an "x" icon when the requirements are wrong */
+  .invalid {
+    color: red;
+  }
+
+  .invalid:before {
+    position: relative;
+    left: 2rem;
+  }
+</style>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form" action="/add_student_save" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+              <div class="form-group">
+                <label>Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  placeholder="Email"
+                  id="add_email"
+                  required
+                />
+                <div id="email_message">
+                  <p id="invalid_email" class="invalid">
+                    Enter a valid email address
+                  </p>
                 </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Add Student</button>
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  name="password"
+                  id="psw"
+                  required
+                />
+                <div id="message">
+                  <p><b>- Please make sure to follow these -</b></p>
+                  <p id="letter" class="invalid">
+                    Should contain atleast one lowercase letter
+                  </p>
+                  <p id="capital" class="invalid">
+                    Should contain atleast one uppercase letter
+                  </p>
+                  <p id="number" class="invalid">
+                    Should contain atleast one digit letter
+                  </p>
+                  <p id="special" class="invalid">
+                    Should contain atleast one special letter
+                  </p>
+                  <p id="length" class="invalid">
+                    Should be atleast 8 character long
+                  </p>
                 </div>
-              </form>
+              </div>
+              <div class="form-group">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="First Name"
+                  name="first_name"
+                />
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last Name"
+                  name="last_name"
+                />
+              </div>
+              <div class="form-group">
+                <label>Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Address"
+                  name="address"
+                />
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select class="form-control" name="gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Course</label>
+                <select class="form-control" name="course">
+                  {% for course in courses %}
+                  <option value="{{ course.id }}">
+                    {{ course.course_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Select Session</label>
+                <select class="form-control" name="session">
+                  {% for scs in sessions %}
+                  <option value="{{ scs.id }}">
+                    {{ scs.session_start_year }} - to - {{ scs.session_end_year }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                {% if messages %} 
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger" style="margin-top: 10px">
+                  {{ message }}
+                </div>
+                {% endif %} 
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success" style="margin-top: 10px">
+                  {{ message }}
+                </div>
+                {% endif %} 
+                {% endfor %} 
+                {% endif %}
+              </div>
             </div>
-            <!-- /.card -->
+            <!-- /.card-body -->
 
-
-
-          </div>
-          </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Add Student</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
       </div>
-    </section>
-    <!-- /.content -->
+    </div>
+  </div>
+</section>
+<script>
+  var myInput = document.getElementById("psw");
+  var letter = document.getElementById("letter");
+  var capital = document.getElementById("capital");
+  var number = document.getElementById("number");
+  var length = document.getElementById("length");
+  var special = document.getElementById("special");
+
+  //for valid email check
+  var enterEmail = document.getElementById("add_email");
+  var invalidEmail = document.getElementById("invalid_email");
+  enterEmail.onfocus = function () {
+    document.getElementById("email_message").style.display = "block";
+  };
+  enterEmail.onblur = function () {
+    document.getElementById("email_message").style.display = "none";
+  };
+  enterEmail.onkeyup = function () {
+    // Validate @ letters
+    var checkLetters = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
+    if (enterEmail.value.match(checkLetters)) {
+      invalidEmail.classList.remove("invalid");
+      invalidEmail.classList.add("valid");
+    } else {
+      invalidEmail.classList.remove("valid");
+      invalidEmail.classList.add("invalid");
+    }
+    
+  };
+
+  // When the user clicks on the password field, show the message box
+  myInput.onfocus = function () {
+    document.getElementById("message").style.display = "block";
+  };
+
+  // When the user clicks outside of the password field, hide the message box
+  myInput.onblur = function () {
+    document.getElementById("message").style.display = "none";
+  };
+
+  // When the user starts to type something inside the password field
+  myInput.onkeyup = function () {
+    // Validate lowercase letters
+    var lowerCaseLetters = /[a-z]/g;
+    if (myInput.value.match(lowerCaseLetters)) {
+      letter.classList.remove("invalid");
+      letter.classList.add("valid");
+    } else {
+      letter.classList.remove("valid");
+      letter.classList.add("invalid");
+    }
+
+    // Validate capital letters
+    var upperCaseLetters = /[A-Z]/g;
+    if (myInput.value.match(upperCaseLetters)) {
+      capital.classList.remove("invalid");
+      capital.classList.add("valid");
+    } else {
+      capital.classList.remove("valid");
+      capital.classList.add("invalid");
+    }
+
+    // Validate numbers
+    var numbers = /[0-9]/g;
+    if (myInput.value.match(numbers)) {
+      number.classList.remove("invalid");
+      number.classList.add("valid");
+    } else {
+      number.classList.remove("valid");
+      number.classList.add("invalid");
+    }
+
+    // Validate special character
+    var specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    if (myInput.value.match(specialChar)) {
+      special.classList.remove("invalid");
+      special.classList.add("valid");
+    } else {
+      special.classList.remove("valid");
+      special.classList.add("invalid");
+    }
+
+    // Validate length
+    if (myInput.value.length >= 8) {
+      length.classList.remove("invalid");
+      length.classList.add("valid");
+    } else {
+      length.classList.remove("valid");
+      length.classList.add("invalid");
+    }
+  };
+</script>
+<!-- /.content -->
 {% endblock main_content %}
-{% block javascript %}
+<!-- {% block javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
     $("#id_email").change(function(){
@@ -131,4 +329,4 @@ $(document).ready(function(){
 
 });
 </script>
-{% endblock javascript %}
+{% endblock javascript %} -->

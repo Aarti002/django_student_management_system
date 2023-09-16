@@ -1,6 +1,6 @@
 {% extends 'hod_templates/base_template.html' %}
 {% block page_title %}
-Manage Student
+Manage Student Details
 {% endblock page_title %}
 {% block main_content %}
     <!-- Main content -->
@@ -10,8 +10,6 @@ Manage Student
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Student Details</h3>
-
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -27,24 +25,21 @@ Manage Student
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>First name</th>
                       <th>Last name</th>
                       <th>Username</th>
                       <th>Email</th>
                       <th>Address</th>
                       <th>Gender</th>
-                      <th>Session year</th>
+                      <th>Selected Session</th>
                       <th>Last login</th>
-                      <th>Joining Date</th>
-                      <th>Course</th>
+                      <th>Opted Course</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for student in students %}
                   <tr>
-                    <td>{{ student.admin.id }}</td>
                     <td>{{ student.admin.first_name }}</td>
                     <td>{{ student.admin.last_name }}</td>
                     <td>{{ student.admin.username }}</td>
@@ -53,10 +48,9 @@ Manage Student
                     <td>{{ student.gender }}</td>
                     <td>{{ student.session_year_id.session_start_year }}  to  {{ student.session_year_id.session_end_year }}</td>
                     <td>{{ student.admin.last_login }}</td>
-                    <td>{{ student.admin.join_date }}</td>
                     <td>{{ student.course_id.course_name }}</td>
-
                     <td><a href="/edit_student/{{student.admin.id }}" class="btn btn-outline-success">Edit</a> </td>
+                    <td><a href="/admin_sendnotification_student/{{student.admin.id }}" class="btn btn-outline-success">Send/View Notification</a> </td>
                     <td><a href="/delete_student/{{student.id }}" class="btn btn-outline-danger">Remove Student</a> </td>
                   </tr>
                   {% endfor %}
