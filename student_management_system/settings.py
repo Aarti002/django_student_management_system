@@ -12,21 +12,24 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import pymysql
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(os.path.join(BASE_DIR/".eVar", ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f2ct9)p+mj4ve04rg27!spskcctbdfzi_ahyiy1=hw+!1p9#t4'
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = os.environ.get("DEBUG")
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+if os.environ.get("ALLOWED_HOSTS") is not None:
+    ALLOWED_HOSTS += os.environ.get("ALLOWED_HOSTS").split()
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'smsdjangoapp.herokuapp.com']
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -45,9 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'student_management_app',
     'django.contrib.sites',
-
-
-
 ]
 
 
@@ -94,14 +94,14 @@ ASGI_APPLICATION = 'student_management_system.asgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'student_management_system',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'student_management_system',
+        # 'USER': 'root',
+        # 'PASSWORD': 'root',
+        # 'HOST': 'localhost',
+        # 'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
     }
 }
 
@@ -158,7 +158,7 @@ AUTH_USER_MODEL = "student_management_app.CustomUser"
 GOOGLE_ANALYTICS_KEY = os.environ.get("GOOGLE_ANALYTICS_KEY")
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 """
 import dj_database_url
 prod_db=dj_database_url.config(conn_max_age=500)
