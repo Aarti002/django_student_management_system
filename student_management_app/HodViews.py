@@ -1,6 +1,5 @@
-import datetime
 import json
-
+from datetime import datetime
 from django.db.models import Count
 from django.contrib import messages
 from django.contrib.sites import requests
@@ -13,6 +12,7 @@ from student_management_app.models import NotificationStaff, NotificationStudent
 
 
 def admin_home(request):
+    # for admin home card
     student = Students.objects.all().count()
     staff = Staffs.objects.all().count()
     courses = Courses.objects.all().count()
@@ -36,48 +36,50 @@ def admin_home(request):
     student_count_with_course_n_session = []
     course_session_for_lable = []
     for itm in student_counts:
-        lable=Courses.objects.get(id=itm['course_id']).course_name + " [" + str(SessionYearModel.objects.get(id=itm['session_year_id']).session_start_year) + ", " + str(SessionYearModel.objects.get(id=itm['session_year_id']).session_end_year) + "]"
+        lable = Courses.objects.get(id=itm['course_id']).course_name + " [" + str(SessionYearModel.objects.get(
+            id=itm['session_year_id']).session_start_year) + ", " + str(SessionYearModel.objects.get(id=itm['session_year_id']).session_end_year) + "]"
         course_session_for_lable.append(lable)
         student_count_with_course_n_session.append(itm["student_count"])
-    
 
-    #to show graph of staff count in each subject->
-    # select subject_teach,count(*) as staff_count from 
+    # to show graph of staff count in each subject->
+    # select subject_teach,count(*) as staff_count from
     # student_management_system.student_management_app_staffs  group by subject_teach;
-    staff_wrt_subjects=[]
-    staff_in_each_subject=Staffs.objects.values('subject_teach').annotate(staff_count=Count('id'))
-    subjects_as_lable=[]
+    staff_wrt_subjects = []
+    staff_in_each_subject = Staffs.objects.values(
+        'subject_teach').annotate(staff_count=Count('id'))
+    subjects_as_lable = []
     for itm in staff_in_each_subject:
         subjects_as_lable.append(itm['subject_teach'])
         staff_wrt_subjects.append(itm['staff_count'])
-    
-    #to show student count in each session period
-    # select count(*) as student_count from 
+
+    # to show student count in each session period
+    # select count(*) as student_count from
     # student_management_system.student_management_app_students  group by session_year_id_id;
-    students_wrt_sessions=[]
-    students_in_each_session=Students.objects.values('session_year_id').annotate(student_count=Count('id'))
-    session_as_lable=[]
-    print(students_in_each_session)
+    students_wrt_sessions = []
+    students_in_each_session = Students.objects.values(
+        'session_year_id').annotate(student_count=Count('id'))
+    session_as_lable = []
     for itm in students_in_each_session:
-        lable=str(SessionYearModel.objects.get(id=itm['session_year_id']).session_start_year) +" - " + str(SessionYearModel.objects.get(id=itm['session_year_id']).session_end_year)
+        lable = str(SessionYearModel.objects.get(id=itm['session_year_id']).session_start_year) + " - " + str(
+            SessionYearModel.objects.get(id=itm['session_year_id']).session_end_year)
         session_as_lable.append(lable)
         students_wrt_sessions.append(itm['student_count'])
-    
 
+    # for present & absent ration of each staff
     staff_present = []
     staff_absent = []
     staff_name_list = []
     staffs_list = Staffs.objects.all()
-    # for staff_ in staffs_list:
-    #     subject_ids = Subjects.objects.filter(staff_id=staff_.admin.id)
-    #     attendance = Attendance.objects.filter(
-    #         subject_id__in=subject_ids).count()
-    #     leave = LeaveReportStaff.objects.filter(
-    #         staff_id=staff_.id, leave_status=1).count()
-    #     staff_present.append(attendance)
-    #     staff_absent.append(leave)
-    #     staff_name_list.append(staff_.admin.username)
+    for itm in staffs_list:
+        attendance = AttendanceReport.objects.filter(
+            staff_id=itm.id).count()
+        leave = LeaveReportStaff.objects.filter(
+            staff_id=itm.id, leave_status=1).count()
+        staff_present.append(attendance)
+        staff_absent.append(leave)
+        staff_name_list.append(itm.admin.username)
 
+    # for present & absent ration of each staff
     student_present = []
     student_absent = []
     student_name_list = []
@@ -94,22 +96,22 @@ def admin_home(request):
         student_name_list.append(stu.admin.username)
 
     return render(request, "hod_templates/home_content.html", {"total_students": student, "total_staff": staff,
-                                                               "total_courses": courses, "total_subject": all_subjects, 
-                                                               "subject_count_list": subject_count_list, "course_name_list": course_name_list, 
-                                                               "student_count_list_in_course": student_count_list_in_course, 
-                                                               "staff_present_list": staff_present, "staff_absent_list": staff_absent, 
+                                                               "total_courses": courses, "total_subject": all_subjects,
+                                                               "subject_count_list": subject_count_list, "course_name_list": course_name_list,
+                                                               "student_count_list_in_course": student_count_list_in_course,
+                                                               "staff_present_list": staff_present, "staff_absent_list": staff_absent,
                                                                "staff_name_list": staff_name_list, "student_present_list": student_present,
-                                                                "student_absent_list": student_absent, "student_name_list": student_name_list, 
-                                                                "course_n_session_lable":course_session_for_lable,
-                                                                "student_count_with_course_n_session": student_count_with_course_n_session,
-                                                                "staff_wrt_subjects":staff_wrt_subjects,
-                                                                "subjects_as_lable":subjects_as_lable,
-                                                                "student_wrt_session":students_wrt_sessions,
-                                                                "session_as_lable":session_as_lable,
-                                                                })
+                                                               "student_absent_list": student_absent, "student_name_list": student_name_list,
+                                                               "course_n_session_lable": course_session_for_lable,
+                                                               "student_count_with_course_n_session": student_count_with_course_n_session,
+                                                               "staff_wrt_subjects": staff_wrt_subjects,
+                                                               "subjects_as_lable": subjects_as_lable,
+                                                               "student_wrt_session": students_wrt_sessions,
+                                                               "session_as_lable": session_as_lable
+                                                               })
+
 
 # All add tabs
-
 
 def add_staff(request):
     subjects = Subjects.objects.all()
@@ -623,7 +625,6 @@ def admin_get_attendance_student(request):
 
 def present_student_attendance(request, session_id):
     students = Students.objects.filter(session_year_id=session_id)
-    print(students)
 
 
 def admin_profile(request):

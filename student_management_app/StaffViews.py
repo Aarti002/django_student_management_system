@@ -1,5 +1,5 @@
 import json
-
+from django.db.models import Count
 from django.contrib import messages
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
@@ -12,110 +12,116 @@ from student_management_app.models import NotificationStaff, CustomUser, Subject
 
 def staff_home(request):
     staff_detail = Staffs.objects.get(admin=request.user.id)
-    total_feedback_send=FeedBackStaff.objects.filter(staff_id=staff_detail.id).count()
-    total_leave_requests=LeaveReportStaff.objects.filter(staff_id=staff_detail.id).count()
-    total_notifications=NotificationStaff.objects.filter(staff_id=staff_detail.id).count()
-    
-    # #subjects=Subjects.objects.filter(staff_id=request.user.id)
-    # course_id_list=[]
-    # for subject in subjects:
-    #     cur=Courses.objects.get(id=subject.course_id.id)
-    #     course_id_list.append(cur.id)
+    total_feedback_send = FeedBackStaff.objects.filter(
+        staff_id=staff_detail.id).count()
+    total_leave_requests = LeaveReportStaff.objects.filter(
+        staff_id=staff_detail.id).count()
+    total_notifications = NotificationStaff.objects.filter(
+        staff_id=staff_detail.id).count()
 
-    # final_course=[]
-    # for x in course_id_list:
-    #     if x not in final_course:
-    #         final_course.append(x)
+    # to show graph of staff count in each subject->
+    # select subject_teach,count(*) as staff_count from
+    # student_management_system.student_management_app_staffs  group by subject_teach;
+    staff_wrt_subjects = []
+    staff_in_each_subject = Staffs.objects.values(
+        'subject_teach').annotate(staff_count=Count('id'))
+    subjects_as_lable = []
+    for itm in staff_in_each_subject:
+        subjects_as_lable.append(itm['subject_teach'])
+        staff_wrt_subjects.append(itm['staff_count'])
 
-    # student_final=Students.objects.filter(course_id__in=final_course).count()
-    # attendance_count=Attendance.objects.filter(subject_id__in=subjects).count()
-    staff = Staffs.objects.get(admin=request.user.id)
-    leave_approve = LeaveReportStaff.objects.filter(
-        staff_id=staff.id, leave_status=1).count()
-   # subject_count=subjects.count()
-    subject_list = []
-    attendance_list = []
-    # for subject in subjects:
-    #     attendance=Attendance.objects.filter(subject_id=subject.id).count()
-    #     subject_list.append(subject.subject_name)
-    #     attendance_list.append(attendance)
-   # students=Students.objects.filter(course_id__in=final_course)
-    student_list = []
-    student_attendance_present = []
-    student_attendance_absent = []
-    # for student in students:
-    #     total_present = AttendanceReport.objects.filter(student_id=student.id, status=True).count()
-    #     total_absent = AttendanceReport.objects.filter(student_id=student.id, status=False).count()
-    #     student_list.append(student.admin.username)
-    #     student_attendance_absent.append(total_absent)
-    #     student_attendance_present.append(total_present)
-    return render(request, "staff_templates/staff_home_templates.html", {"leave": leave_approve, 
-                                                                         "subject_list": subject_list, 
-                                                                         "attendance_list": attendance_list, 
-                                                                         "student_list": student_list, 
-                                                                         "present": student_attendance_present,
-                                                                         "absent": student_attendance_absent,
-                                                                         "total_feedback_send":total_feedback_send,
-                                                                         "total_leave_requests":total_leave_requests,
-                                                                         "total_notifications":total_notifications
+    # to show student count in each session period
+    # select count(*) as student_count from
+    # student_management_system.student_management_app_students  group by session_year_id_id;
+    students_wrt_sessions = []
+    students_in_each_session = Students.objects.values(
+        'session_year_id').annotate(student_count=Count('id'))
+    session_as_lable = []
+    for itm in students_in_each_session:
+        lable = str(SessionYearModel.objects.get(id=itm['session_year_id']).session_start_year) + " - " + str(
+            SessionYearModel.objects.get(id=itm['session_year_id']).session_end_year)
+        session_as_lable.append(lable)
+        students_wrt_sessions.append(itm['student_count'])
+
+    staff_count = Staffs.objects.all().count()
+    student_count = Students.objects.all().count()
+    return render(request, "staff_templates/staff_home_templates.html", {"total_feedback_send": total_feedback_send,
+                                                                         "total_leave_requests": total_leave_requests,
+                                                                         "total_notifications": total_notifications,
+                                                                         "session_as_lable": session_as_lable,
+                                                                         "student_wrt_session": students_wrt_sessions,
+                                                                         "total_students": student_count, "total_staff": staff_count,
                                                                          })
 
 
 def staff_take_attendance(request):
-    subjects = Subjects.objects.all()
-    session_years = SessionYearModel.objects.all()
-    return render(request, "staff_templates/staff_attendance_templates.html", {"subjects": subjects, "sessions": session_years})
+    staff_details = Staffs.objects.get(admin=request.user.id)
+    courses = Courses.objects.all()
+    sessions = SessionYearModel.objects.all()
+    return render(request, "staff_templates/staff_attendance_templates.html", {"all_courses": courses, "all_sessions": sessions, "staff_detail": staff_details})
+
+
+def fetch_students(request):
+    print("in fetch students funtion")
+    course_id = request.POST.get("course_id")
+    session_id = request.POST.get("session_year")
+    students = Students.objects.filter(course_id=course_id)
+    student_list = []
+    for student in students:
+        if student.session_year_id == session_id:
+            student_list.append(student)
+
+    return render(request, "staff_templates/staff_attendance_templates.html", {"fetched_students": student_list})
 
 
 @csrf_exempt
 def get_students(request):
-    subject_id = request.POST.get("subject")
+    course_id = request.POST.get("course_id")
     session_year = request.POST.get("session_year")
 
-    subject = Subjects.objects.get(id=subject_id)
+    course = Courses.objects.get(id=course_id)
     session_model = SessionYearModel.objects.get(id=session_year)
     students = Students.objects.filter(
-        course_id=subject.course_id, session_year_id=session_model)
+        course_id=course, session_year_id=session_model)
     list_data = []
 
     for student in students:
         data_small = {"id": student.admin.id,
                       "name": student.admin.first_name+" "+student.admin.last_name}
         list_data.append(data_small)
+    print(list_data)
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
 
 @csrf_exempt
 def save_attendance_data(request):
+    staff_id = request.POST.get("staff_id")
     student_ids = request.POST.get("student_ids")
-    subject_id = request.POST.get("subject_id")
+    course_id = request.POST.get("course_id")
     attendance_date = request.POST.get("attendance_date")
     session_year_id = request.POST.get("session_year_id")
 
-    subject_model = Subjects.objects.get(id=subject_id)
-    session_model = SessionYearModel.objects.get(id=session_year_id)
+    staff_detail = Staffs.objects.get(admin=staff_id)
+    course_detail = Courses.objects.get(id=course_id)
+    session_detail = SessionYearModel.objects.get(id=session_year_id)
     json_sstudent = json.loads(student_ids)
-    # print(data[0]['id'])
+    print(student_ids)
 
     try:
         attendance = Attendance(
-            subject_id=subject_model, attendance_date=attendance_date, session_year_id=session_model)
+            staff_id=staff_detail, session_year_id=session_detail,
+            course_id=course_detail)
         attendance.save()
 
         for stud in json_sstudent:
             student = Students.objects.get(admin=stud['id'])
             attendance_report = AttendanceReport(
+                attendance_date=attendance_date, staff_id=staff_detail,
                 student_id=student, attendance_id=attendance, status=stud['status'])
             attendance_report.save()
         return HttpResponse("OK")
     except:
         return HttpResponse("ERR")
-
-
-def staff_update_attendance(request):
-    subjects = Subjects.objects.all()
-    session_year_id = SessionYearModel.objects.all()
-    return render(request, "staff_templates/staff_update_attendance.html", {"subjects": subjects, "session_year_id": session_year_id})
 
 
 @csrf_exempt
@@ -148,26 +154,6 @@ def get_attendance_student(request):
                       " "+student.student_id.admin.last_name, "status": student.status}
         list_data.append(data_small)
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
-
-
-@csrf_exempt
-def save_updateattendance_data(request):
-    student_ids = request.POST.get("student_ids")
-    attendance_date = request.POST.get("attendance_date")
-    attendance = Attendance.objects.get(id=attendance_date)
-
-    json_sstudent = json.loads(student_ids)
-
-    try:
-        for stud in json_sstudent:
-            student = Students.objects.get(admin=stud['id'])
-            attendance_report = AttendanceReport.objects.get(
-                student_id=student, attendance_id=attendance)
-            attendance_report.status = stud['status']
-            attendance_report.save()
-        return HttpResponse("OK")
-    except:
-        return HttpResponse("ERR")
 
 
 def staff_feedback(request):
@@ -275,12 +261,12 @@ def delete_notification(request, notice_id):
     return render(request, "staff_templates/all_notification.html", {"notification": notice})
 
 
-def send_notification_reply(request, notice_id):
+def staff_notification_reply(request, notice_id):
     notification = NotificationStaff.objects.get(id=notice_id)
     return render(request, "staff_templates/notification_reply.html", {"notification": notification})
 
 
-def notification_reply_save(request):
+def staff_notification_reply_save(request):
     if request.method != "POST":
         return HttpResponseRedirect("/notification_reply_save")
     else:

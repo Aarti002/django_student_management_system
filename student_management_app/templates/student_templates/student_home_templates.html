@@ -1,276 +1,266 @@
-{% extends 'student_templates/base_template.html' %}
-{% block page_title %}Home{% endblock page_title %}
+{% extends 'student_templates/base_template.html' %} 
+{% block page_title %}STUDENT PAGE{% endblock page_title %} 
 {% block main_content %}
-<hr>
+<hr />
 <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Start box) -->
-        <div class="row">
-          <div class="col-lg-3 col-6" >
-            <!-- small box -->
-            <div class="small-box " style="background-color:#bbdefb;">
-              <div class="inner">
-                <h2>Total Strength</h2>
-
-                <p><b>{{ total }}</b></p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-users" aria-hidden="true"></i>
-              </div>
-              <a href="/student_view_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+  <div class="container-fluid">
+    <!-- Small boxes (Start box) -->
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- card-1 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_notifications }}</h3>
+            <p>Total Recieved Notifications</p>
           </div>
-          <!-- ./col -->
-
-
-          <div class="col-lg-3 col-6" >
-            <!-- small box -->
-            <div class="small-box" style="background-color:#82b1ff;" >
-              <div class="inner">
-                <h4>Present Student</h4>
-
-                <p><b>{{ present }}</b></p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-user-plus" aria-hidden="true" style="margin-left:2rem;"></i>
-              </div>
-              <a href="/student_view_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+          <div class="icon">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
-          <!-- ./col -->
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box" style="background-color:#448aff ;">
-              <div class="inner">
-                <h4>Absent Student</h4>
-
-                <p>{{ absent }}</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-user-times" aria-hidden="true"></i>
-              </div>
-              <a href="/student_view_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box " style="background-color:#2962ff;">
-              <div class="inner">
-                <h4><b>Total Subjects</b></h4>
-
-                <p>{{ subject }}</p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-book" aria-hidden="true"></i>
-              </div>
-              <a href="/student_view_attendance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
+          <a href="/student_all_notification" class="small-box-footer"
+            >Notification Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
         </div>
-      </div><!-- /.container-fluid -->
-  <div class="row">
-    <div class="col-lg-6">
-    <div class="card card-secondary">
-              <div class="card-header">
-                <h3 class="card-title">Attendance Status</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 419px;" width="523" height="312" class="chartjs-render-monitor"></canvas>
-              </div>
-              <!-- /.card-body -->
-    </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="card card-secondary">
-              <div class="card-header">
-                <h3 class="card-title">Attendance Statistic</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 419px;" width="523" height="312" class="chartjs-render-monitor"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
-            </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <!-- card-2 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_feedback_send }}</h3>
+            <p>Total Feedback Send</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+          </div>
+          <a href="/student_feedback" class="small-box-footer"
+            >Feedback Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <!-- card-3 -->
+        <div class="small-box" style="background-color: #669999">
+          <div class="inner">
+            <h3>{{ total_leave }}</h3>
+            <p>Total Leave Requests</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </div>
+          <a href="/student_apply_leave" class="small-box-footer"
+            >Request Details <i class="fas fa-arrow-circle-right"></i
+          ></a>
+        </div>
+      </div>
     </div>
   </div>
+  <!-- /.container-fluid -->
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Attendance Status</h3>
+
+          <div class="card-tools">
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="collapse"
+            >
+              <i class="fas fa-minus"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="remove"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chartjs-size-monitor">
+            <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+            <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+          </div>
+          <canvas
+            id="donutChart1"
+            style="
+              min-height: 250px;
+              height: 250px;
+              max-height: 250px;
+              max-width: 100%;
+              display: block;
+              width: 419px;
+            "
+            width="523"
+            height="312"
+            class="chartjs-render-monitor"
+          ></canvas>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+    
+    
+  </div>
 </section>
-{% endblock main_content %}
-{% block content_js %}
+{% endblock main_content %} {% block content_js %}
 <script>
 
-$(document).ready(function(){
-    var subject_list={{ subject_name }}
-    var present_data={{ total_present }}
-    var absent_data={{ total_absent }}
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: [
-          'Absent',
-          'Present',
-          'total'
-      ],
-      datasets: [
-        {
-          data: [{{ absent }},{{ present }},{{ total }}],
-          backgroundColor : ['#448aff', '#82b1ff','#bbdefb'],
-        }
-      ]
-    }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    var donutChart = new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
+  $(document).ready(function(){
+      var present_data={{ present_count }}
+      var absent_data={{ absent_count }}
+      var donutChartCanvas1 = $('#donutChart1').get(0).getContext('2d')
+      var donutData1 = {
+        labels: [
+            'Absent',
+            'Present'
+        ],
+        datasets: [
+          {
+            data: [{{ absent_count }},{{ present_count }}],
+            backgroundColor : ['#000000', '#006666', '#00cccc',
+                              '#33ffff', '#e6ffff', '#ffffff','#8080ff',
+                              '#e6e6ff','#52527a','#a3a3c2']
+          }
+        ]
+      }
+      var donutOptions1 = {
+        maintainAspectRatio : false,
+        responsive : true,
+      }
+      var donutChart1 = new Chart(donutChartCanvas1, {
+        type: 'doughnut',
+        data: donutData1,
+        options: donutOptions1
+      })
 
-    var areaChartData = {
-      labels  : subject_list,
-      datasets: [
-        {
-          label               : 'Student Present',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : present_data
-        },
-        {
-          label               : 'Student Absent',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : absent_data
-        },
-      ]
-    }
-
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = jQuery.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-
-
-    barChartData.datasets[0] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
+      var areaChartData = {
+        labels  : [],
+        datasets: [
+          {
+            label               : 'Student Present',
+            backgroundColor     : 'rgba(60,141,188,0.9)',
+            borderColor         : 'rgba(60,141,188,0.8)',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(60,141,188,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data                : present_data
+          },
+          {
+            label               : 'Student Absent',
+            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            borderColor         : 'rgba(210, 214, 222, 1)',
+            pointRadius         : false,
+            pointColor          : 'rgba(210, 214, 222, 1)',
+            pointStrokeColor    : '#c1c7d1',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data                : absent_data
+          },
+        ]
       }
 
-    var barChart = new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
+      var barChartCanvas = $('#barChart').get(0).getContext('2d')
+      var barChartData = jQuery.extend(true, {}, areaChartData)
+      var temp0 = areaChartData.datasets[0]
 
 
-    })
+      barChartData.datasets[0] = temp0
+
+      var barChartOptions = {
+        responsive              : true,
+        maintainAspectRatio     : false,
+        datasetFill             : false
+        }
+
+      var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: barChartData,
+        options: barChartOptions
+      })
+
+
+      })
 </script>
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"></script>
 <script>
-    var firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "FIREBASE_AUTH_URL",
-        databaseURL: "FIREBASE_DATABASE_URL",
-        projectId: "FIREBASE_PROJECT_ID",
-        storageBucket: "FIREBASE_STORAGE_BUCKET_URL",
-        messagingSenderId: "FIREBASE_SENDER_ID",
-        appId: "FIREBASE_APP_ID",
-        measurementId: "FIREBASE_MEASUREMENT_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const messaging=firebase.messaging();
+  var firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "FIREBASE_AUTH_URL",
+      databaseURL: "FIREBASE_DATABASE_URL",
+      projectId: "FIREBASE_PROJECT_ID",
+      storageBucket: "FIREBASE_STORAGE_BUCKET_URL",
+      messagingSenderId: "FIREBASE_SENDER_ID",
+      appId: "FIREBASE_APP_ID",
+      measurementId: "FIREBASE_MEASUREMENT_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const messaging=firebase.messaging();
 
-    function IntitalizeFireBaseMessaging() {
-        messaging
-            .requestPermission()
-            .then(function () {
-                console.log("Notification Permission");
-                return messaging.getToken();
-            })
-            .then(function (token) {
-                console.log("Token : "+token);
-                sendToServer(token);
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            });
-    }
+  function IntitalizeFireBaseMessaging() {
+      messaging
+          .requestPermission()
+          .then(function () {
+              console.log("Notification Permission");
+              return messaging.getToken();
+          })
+          .then(function (token) {
+              console.log("Token : "+token);
+              sendToServer(token);
+          })
+          .catch(function (reason) {
+              console.log(reason);
+          });
+  }
 
-    messaging.onMessage(function (payload) {
-        console.log(payload);
-        const notificationOption={
-            body:payload.notification.body,
-            icon:payload.notification.icon
-        };
+  messaging.onMessage(function (payload) {
+      console.log(payload);
+      const notificationOption={
+          body:payload.notification.body,
+          icon:payload.notification.icon
+      };
 
-        if(Notification.permission==="granted"){
-            var notification=new Notification(payload.notification.title,notificationOption);
+      if(Notification.permission==="granted"){
+          var notification=new Notification(payload.notification.title,notificationOption);
 
-            notification.onclick=function (ev) {
-                ev.preventDefault();
-                window.open(payload.notification.click_action,'_blank');
-                notification.close();
-            }
-        }
+          notification.onclick=function (ev) {
+              ev.preventDefault();
+              window.open(payload.notification.click_action,'_blank');
+              notification.close();
+          }
+      }
 
-    });
-    messaging.onTokenRefresh(function () {
-        messaging.getToken()
-            .then(function (newtoken) {
-                console.log("New Token : "+ newtoken);
-                sendToServer(newtoken);
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            })
-    });
+  });
+  messaging.onTokenRefresh(function () {
+      messaging.getToken()
+          .then(function (newtoken) {
+              console.log("New Token : "+ newtoken);
+              sendToServer(newtoken);
+          })
+          .catch(function (reason) {
+              console.log(reason);
+          })
+  });
 
-    function sendToServer(token){
-         $.ajax({
-                url:'{% url 'student_fcmtoken_save' %}',
-                type:'POST',
-                data:{token:token},
-            })
-            .done(function(response){
-                if(response=="True"){
-                    console.log("Token Save")
-                }
-                else{
-                    console.log("Error in Token Save")
-                }
-            });
-    }
-    IntitalizeFireBaseMessaging();
+  function sendToServer(token){
+       $.ajax({
+              url:'{% url 'student_fcmtoken_save' %}',
+              type:'POST',
+              data:{token:token},
+          })
+          .done(function(response){
+              if(response=="True"){
+                  console.log("Token Save")
+              }
+              else{
+                  console.log("Error in Token Save")
+              }
+          });
+  }
+  IntitalizeFireBaseMessaging();
 </script>
 {% endblock content_js %}

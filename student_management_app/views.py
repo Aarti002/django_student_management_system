@@ -38,10 +38,6 @@ def showFirebaseJS(request):
     return HttpResponse(data, content_type="text/javascript")
 
 
-def index(request):
-    return render(request, "index.html")
-
-
 def login_page(request):
     current_user = request.user
     return render(request, "login.html")
@@ -53,7 +49,7 @@ def dologin(request):
     else:
         user = EmailBackEnd.authenticate(
             request, username=request.POST['email'], password=request.POST['password'])
-        print("Usename:"+str(user.user_type))
+        
         if user != None:
             login(request, user)
             if user.user_type == '1':

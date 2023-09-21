@@ -75,8 +75,8 @@ class Students(models.Model):
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
-    subject_id = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
-    attendance_date = models.DateField()
+    staff_id = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING)
+    course_id = models.ForeignKey(Courses, on_delete=models.DO_NOTHING)
     session_year_id = models.ForeignKey(
         SessionYearModel, on_delete=models.CASCADE, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -86,6 +86,8 @@ class Attendance(models.Model):
 
 class AttendanceReport(models.Model):
     id = models.AutoField(primary_key=True)
+    attendance_date = models.DateField()
+    staff_id = models.ForeignKey(Staffs, on_delete=models.DO_NOTHING)
     student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
     attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
@@ -96,7 +98,7 @@ class AttendanceReport(models.Model):
 
 class LeaveReportStudent(models.Model):
     id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)   
+    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
     leave_start_date = models.DateField()
     leave_end_date = models.DateField()
     leave_message = models.TextField()

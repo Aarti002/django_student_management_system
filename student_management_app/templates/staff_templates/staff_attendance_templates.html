@@ -13,20 +13,29 @@ Take Attendance
 
               <!-- /.card-header -->
               <!-- form start -->
+            
                 <div class="card-body">
+                    <div class="form-group">
+                        <label>Username: </label>  {{ staff_detail.admin.username }} 
+                        <input type="hidden" name="staff_id" id="staff_id" value="{{ staff_detail.admin.id }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Subject:  </label>  {{ staff_detail.subject_teach }}
+                    </div>
+                    
                    <div class="form-group">
-                    <label>Subject </label>
-                    <select class="form-control" name="subject" id="subject">
-                        {% for subject in subjects %}
-                          <option value="{{ subject.id }}" >{{ subject.subject_name }}</option>
+                    <label>Course: </label>
+                    <select class="form-control" name="course_id" id="course_id">
+                        {% for course in all_courses %}
+                          <option value="{{ course.id }}" >{{ course.course_name }}</option>
                         {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
                     <label>Session Year</label>
                     <select class="form-control" name="session_year" id="session_year">
-                        {% for session_year in sessions %}
-                          <option value="{{ session_year.id }}">{{ session_year.session_start_year }}  -TO-  {{ session_year.session_end_year }}</option>
+                        {% for session in all_sessions %}
+                          <option value="{{ session.id }}">{{ session.session_start_year }}  -TO-  {{ session.session_end_year }}</option>
                         {% endfor %}
                     </select>
                   </div>
@@ -50,8 +59,9 @@ Take Attendance
                   <button type="button" class="btn btn-primary btn-block" id="fetch_student">Fetch Student</button>
                 </div>
                 <div id="student_data" class="card-footer">
-
+                    
                 </div>
+                
             </div>
             <!-- /.card -->
 
@@ -67,13 +77,14 @@ Take Attendance
 <script>
     $(document).ready(function(){
         $("#fetch_student").click(function(){
-            var subject=$("#subject").val()
+            console.log("clicked!")
+            var course_id=$("#course_id").val()
             var session_year=$("#session_year").val()
 
             $.ajax({
                 url:'{% url 'get_students' %}',
                 type:'POST',
-                data:{subject:subject,session_year:session_year},
+                data:{course_id:course_id,session_year:session_year},
             })
             .done(function(response){
                 var json_data=JSON.parse(response);
@@ -87,7 +98,7 @@ Take Attendance
                 div_data+="<div class='form-group'>";
                 div_data+="<button id='save_attendance' class='btn btn-success btn-block' type='button'>Save Attendance Data</button>";
                 div_data+="</div>";
-
+                    
                 $("#student_data").html(div_data);
 
             })
@@ -109,15 +120,16 @@ Take Attendance
                         }
                  }).get()
                 var attendance_date=$("#attendance_date").val();
-                var subject_id=$("#subject").val();
+                var course_id=$("#course_id").val();
                 var session_year_id=$("#session_year").val();
+                var staff_id=$("#staff_id").val();
                 console.log(student_data)
                 student_data=JSON.stringify(student_data)
 
                 $.ajax({
                         url:'{% url 'save_attendance_data' %}',
                         type:'POST',
-                        data:{student_ids:student_data,attendance_date:attendance_date,subject_id:subject_id,session_year_id:session_year_id},
+                        data:{staff_id:staff_id,student_ids:student_data,attendance_date:attendance_date,course_id:course_id,session_year_id:session_year_id},
                     })
                     .done(function(response){
 

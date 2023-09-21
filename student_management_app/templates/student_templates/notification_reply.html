@@ -1,4 +1,4 @@
-{% extends 'staff_templates/base_template.html' %}
+{% extends 'student_templates/base_template.html' %}
 {% block page_title %}Reply to Notification ID: {{notification.id}}{% endblock page_title %}
 {% block main_content %}
 
@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary">
-                    <form action="/staff_notification_reply_save" method="POST">
+                    <form action="/student_notification_reply_save" method="POST">
                     <div class="card-body">
 
                             {% csrf_token %}

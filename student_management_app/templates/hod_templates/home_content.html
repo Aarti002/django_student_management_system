@@ -273,7 +273,7 @@ PAGE{% endblock page_title %} {% block main_content %}
       <div class="col-lg-12">
         <div class="card card-secondary">
           <div class="card-header">
-            <h3 class="card-title">Staff Attendance and Leave Chart</h3>
+            <h3 class="card-title">Present and Absent ratio for Staffs</h3>
 
             <div class="card-tools">
               <button
@@ -303,7 +303,7 @@ PAGE{% endblock page_title %} {% block main_content %}
                 </div>
               </div>
               <canvas
-                id="barChart"
+                id="barChart1"
                 style="
                   min-height: 250px;
                   height: 250px;
@@ -326,8 +326,7 @@ PAGE{% endblock page_title %} {% block main_content %}
       <div class="col-lg-12">
         <div class="card card-secondary">
           <div class="card-header">
-            <h3 class="card-title">Student Attendance and Leave Chart</h3>
-
+            <h3 class="card-title">Present and Absent ratio for Students</h3>
             <div class="card-tools">
               <button
                 type="button"
@@ -482,12 +481,11 @@ PAGE{% endblock page_title %} {% block main_content %}
         options: donutOptions4
       });
 
-
-      //Bar chart for staff leave and attendance
+      //Bar chart for staff absent and present
       var staff_present_list= {{ staff_present_list }}
       var staff_absent_list = {{ staff_absent_list }}
       var staff_name_list = {{ staff_name_list|safe }}
-      var areaChartData = {
+      var areaChartData1 = {
         labels  : staff_name_list,
         datasets: [
           {
@@ -514,26 +512,26 @@ PAGE{% endblock page_title %} {% block main_content %}
           },
         ]
       }
-      var barChartCanvas = $('#barChart').get(0).getContext('2d')
-      var barChartData = jQuery.extend(true, {}, areaChartData)
-      var temp0 = areaChartData.datasets[0]
-      var temp1 = areaChartData.datasets[1]
-      barChartData.datasets[0] = temp1
-      barChartData.datasets[1] = temp0
+      var barChartCanvas1 = $('#barChart1').get(0).getContext('2d')
+      var barChartData1 = jQuery.extend(true, {}, areaChartData1)
+      var temp01 = areaChartData1.datasets[0]
+      var temp11 = areaChartData1.datasets[1]
+      barChartData1.datasets[0] = temp11
+      barChartData1.datasets[1] = temp01
 
-      var barChartOptions = {
+      var barChartOptions1 = {
         responsive              : true,
         maintainAspectRatio     : false,
         datasetFill             : false
       }
 
-      var barChart = new Chart(barChartCanvas, {
+      var barChart1 = new Chart(barChartCanvas1, {
         type: 'bar',
-        data: barChartData,
-        options: barChartOptions
+        data: barChartData1,
+        options: barChartOptions1
       })
 
-      //student leave and attendance
+      //Bar chart for student absent and present
       var student_present_list= {{ student_present_list }}
       var student_absent_list = {{ student_absent_list }}
       var student_name_list = {{ student_name_list|safe }}
@@ -565,7 +563,7 @@ PAGE{% endblock page_title %} {% block main_content %}
         ]
       }
       var barChartCanvas2 = $('#barChart2').get(0).getContext('2d')
-      var barChartData2 = jQuery.extend(true, {}, areaChartData)
+      var barChartData2 = jQuery.extend(true, {}, areaChartData2)
       var temp02 = areaChartData2.datasets[0]
       var temp12 = areaChartData2.datasets[1]
       barChartData2.datasets[0] = temp12

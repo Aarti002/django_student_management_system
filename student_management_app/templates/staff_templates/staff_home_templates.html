@@ -53,11 +53,11 @@ PAGE{% endblock page_title %} {% block main_content %}
     </div>
     <!-- /.row (main row) -->
     <div class="row">
+      <!-- students and staffs strength -->
       <div class="col-lg-6">
         <div class="card card-secondary">
           <div class="card-header">
-            <h3 class="card-title">Attendance and Leave Status</h3>
-
+            <h3 class="card-title">Student and Staff count Chart</h3>
             <div class="card-tools">
               <button
                 type="button"
@@ -85,27 +85,28 @@ PAGE{% endblock page_title %} {% block main_content %}
               </div>
             </div>
             <canvas
-              id="pieChart"
+              id="donutChart1"
               style="
                 min-height: 250px;
                 height: 250px;
                 max-height: 250px;
                 max-width: 100%;
                 display: block;
+                width: 419px;
               "
               width="523"
               height="312"
               class="chartjs-render-monitor"
             ></canvas>
           </div>
-          <!-- /.card-body -->
         </div>
       </div>
+
+      <!-- student strength in each session -->
       <div class="col-lg-6">
         <div class="card card-secondary">
           <div class="card-header">
-            <h3 class="card-title">Attendance Subject wise</h3>
-
+            <h3 class="card-title">Student count WRT available Session</h3>
             <div class="card-tools">
               <button
                 type="button"
@@ -124,31 +125,29 @@ PAGE{% endblock page_title %} {% block main_content %}
             </div>
           </div>
           <div class="card-body" style="background-color: #e0e0d1">
-            <div class="chart">
-              <div class="chartjs-size-monitor">
-                <div class="chartjs-size-monitor-expand">
-                  <div class=""></div>
-                </div>
-                <div class="chartjs-size-monitor-shrink">
-                  <div class=""></div>
-                </div>
+            <div class="chartjs-size-monitor">
+              <div class="chartjs-size-monitor-expand">
+                <div class=""></div>
               </div>
-              <canvas
-                id="barChart"
-                style="
-                  min-height: 250px;
-                  height: 250px;
-                  max-height: 250px;
-                  max-width: 100%;
-                  display: block;
-                "
-                width="523"
-                height="312"
-                class="chartjs-render-monitor"
-              ></canvas>
+              <div class="chartjs-size-monitor-shrink">
+                <div class=""></div>
+              </div>
             </div>
+            <canvas
+              id="donutChart2"
+              style="
+                min-height: 250px;
+                height: 250px;
+                max-height: 250px;
+                max-width: 100%;
+                display: block;
+                width: 419px;
+              "
+              width="523"
+              height="312"
+              class="chartjs-render-monitor"
+            ></canvas>
           </div>
-          <!-- /.card-body -->
         </div>
       </div>
     </div>
@@ -158,121 +157,54 @@ PAGE{% endblock page_title %} {% block main_content %}
 {% endblock main_content %} {% block content_js %}
 <script>
   $(document).ready(function(){
-    var pieData        = {
+    var donutChartCanvas1 = $('#donutChart1').get(0).getContext('2d')
+      var donutData1 = {
         labels: [
-            'Attendance',
-            'Leave'
+            'Student',
+            'Staff'
         ],
         datasets: [
           {
-            data: [{{ total_attendance }}, {{ leave }}],
-            backgroundColor : ['#f56954', '#00a65a'],
+            data: [{{ total_students }},{{ total_staff }}],
+            backgroundColor : ['#000000', '#006666', '#00cccc',
+                              '#33ffff', '#e6ffff', '#ffffff','#8080ff',
+                              '#e6e6ff','#52527a','#a3a3c2'],
           }
         ]
       }
-      var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-
-      var pieOptions     = {
+      var donutOptions1 = {
         maintainAspectRatio : false,
         responsive : true,
       }
-      //Create pie or douhnut chart
-      // You can switch between pie and douhnut using the method below.
-      var pieChart = new Chart(pieChartCanvas, {
-        type: 'pie',
-        data: pieData,
-        options: pieOptions
+      var donutChart1 = new Chart(donutChartCanvas1, {
+        type: 'doughnut',
+        data: donutData1,
+        options: donutOptions1
       });
 
-      var attendance_list= {{ attendance_list }};
-      var subject_list={{ subject_list }};
-      var barData = {
-      labels  : subject_list,
-      datasets: [
-        {
-          label               : 'Attended Subjects Data',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : attendance_list
-        }
-      ]
-    }
-
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = jQuery.extend(true, {}, barData)
-    var temp0 = barData.datasets[0]
-
-    barChartData.datasets[0] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    var barChart = new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
-
-
-
-      var attendance_list= {{ attendance_list }};
-      var present= {{ present }};
-      var absent= {{ absent }};
-      var student_list={{ student_list }};
-      var barData2 = {
-      labels  : student_list,
-      datasets: [
-        {
-          label               : 'Student Attended',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : present
-        },
-        {
-          label               : 'Student Not Attended',
-          backgroundColor     : 'rgba(260,141,188,0.9)',
-          borderColor         : 'rgba(260,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : absent
-        }
-      ]
-    }
-
-    var barChartCanvas1 = $('#barChart2').get(0).getContext('2d')
-    var barChartData1 = jQuery.extend(true, {}, barData2)
-    var temp2 = barData2.datasets[0]
-
-    barChartData1.datasets[0] = temp2
-
-    var barChartOptions1 = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    var barChart = new Chart(barChartCanvas1, {
-      type: 'bar',
-      data: barChartData1,
-      options: barChartOptions1
-    })
-
+      var session_as_lable = {{ session_as_lable|safe }}
+      var student_wrt_session = {{ student_wrt_session }}
+      var donutChartCanvas2 = $('#donutChart2').get(0).getContext('2d')
+      var donutData2 = {
+        labels: session_as_lable,
+        datasets: [
+          {
+            data: student_wrt_session,
+            backgroundColor :  ['#000000', '#006666', '#00cccc',
+                              '#33ffff', '#e6ffff', '#ffffff','#8080ff',
+                              '#e6e6ff','#52527a','#a3a3c2']
+          }
+        ]
+      }
+      var donutOptions2 = {
+        maintainAspectRatio : false,
+        responsive : true,
+      }
+      var donutChart2 = new Chart(donutChartCanvas2, {
+        type: 'doughnut',
+        data: donutData2,
+        options: donutOptions2
+      });
   })
 </script>
 <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>

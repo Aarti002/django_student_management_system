@@ -9,33 +9,21 @@ Student Notifications
   <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">View all Notification</h3>
-
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>Notifications</th>
-
+                      <th>Notification Message</th>
+                      <th>Reply</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for notify in notification %}
+                    {% for notify in all_notifications %}
                   <tr>
                     <td>{{ notify.message }}</td>
-                    
+                    <td>{{ notify.message_reply }}</td>
+                    <td><a href="/student_notification_reply/{{notify.id }}" class="btn btn-outline-success">Reply</a> </td>
                   </tr>
                   {% endfor %}
                   </tbody>
