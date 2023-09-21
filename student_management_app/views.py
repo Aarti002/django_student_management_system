@@ -58,10 +58,12 @@ def dologin(request):
                 return HttpResponseRedirect('/staff_home')
             elif user.user_type == '3':
                 return HttpResponseRedirect('/student_home')
+            else:
+                return HttpResponseRedirect("/")
 
         else:
             messages.error(request, "Invalid Login Details")
-            return redirect("main:homepage")
+            return HttpResponseRedirect("/")
 
 
 def getuserdetail(request):
@@ -72,7 +74,6 @@ def getuserdetail(request):
 
 
 def logout_user(request):
-
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("main:homepage")
